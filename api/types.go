@@ -47,9 +47,10 @@ type IssueStatus struct {
 
 type IssueFields struct {
 	Assignee    IssueAssignee `json:"assignee"`
-	Status      IssueStatus   `json:"issue"`
+	Status      IssueStatus   `json:"status"`
 	Summary     string        `json:"summary"`
 	Description string        `json:"description"`
+	Sprint      Sprint        `json:"sprint"`
 }
 
 type Issue struct {
