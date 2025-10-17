@@ -44,6 +44,10 @@ type IssueAssignee struct {
 type IssueStatus struct {
 	Name string `json:"name"`
 }
+type FixVersion struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}
 
 type IssueFields struct {
 	Assignee    IssueAssignee `json:"assignee"`
@@ -51,6 +55,8 @@ type IssueFields struct {
 	Summary     string        `json:"summary"`
 	Description string        `json:"description"`
 	Sprint      Sprint        `json:"sprint"`
+	FixVersions []FixVersion  `json:"fixVersions"`
+	StoryPoints float32       `json:"customfield_10024"`
 }
 
 type Issue struct {

@@ -24,6 +24,7 @@ type Developer struct {
 type DeveloperTask struct {
 	Summary     string
 	Description string
+	StoryPoints int
 }
 
 func FormatSprint(
@@ -76,6 +77,7 @@ func FormatSprint(
 		tasks = append(tasks, DeveloperTask{
 			Summary:     issue.Fields.Summary,
 			Description: issue.Fields.Description,
+			StoryPoints: int(issue.Fields.StoryPoints),
 		})
 		developer.TasksByStatus[taskStatus] = tasks
 

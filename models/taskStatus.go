@@ -32,3 +32,19 @@ func getTaskStatusFrom(s string) (TaskStatus, error) {
 
 	return TaskStatusDone, fmt.Errorf("TaskStatus=%s could not be found!", s)
 }
+
+func (t TaskStatus) GetIcon() string {
+	switch t {
+	case TaskStatusTodo:
+		return ""
+	case TaskStatusInProgress:
+		return "⌛"
+	case TaskStatusInReview:
+		return ""
+	case TaskStatusStaging:
+		return ""
+	case TaskStatusDone:
+		return "✅"
+	}
+	return ""
+}

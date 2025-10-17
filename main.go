@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/mabd-dev/gira/api"
 	"github.com/mabd-dev/gira/config"
+	"github.com/mabd-dev/gira/display"
 	"github.com/mabd-dev/gira/models"
 )
 
@@ -79,31 +79,5 @@ func main() {
 		return
 	}
 
-	printSprint(sprint)
-
-}
-
-func printSprint(sprint models.Sprint) {
-	fmt.Println(sprint.Name)
-	fmt.Println(sprint.StartDate + " | " + sprint.EndDate)
-	fmt.Println(sprint.Goal)
-	fmt.Println("----------------------")
-
-	for _, dev := range sprint.Developers {
-		fmt.Println(dev.Name + ":")
-
-		for _, status := range models.TasksInOrder {
-			tasks := dev.TasksByStatus[status]
-			if len(tasks) == 0 {
-				continue
-			}
-
-			fmt.Println("  " + string(status))
-			for i, task := range tasks {
-				fmt.Println("    " + strconv.Itoa(i+1) + " - " + task.Summary)
-			}
-		}
-
-		fmt.Println("***************")
-	}
+	display.PrintSprint(sprint)
 }
