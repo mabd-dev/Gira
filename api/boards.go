@@ -1,8 +1,6 @@
 package api
 
 import (
-	"encoding/json"
-	"io"
 	"net/http"
 	"net/url"
 )
@@ -18,15 +16,10 @@ func (c *Client) GetBoards(projectID string) (BoardsResponse, error) {
 		return BoardsResponse{}, err
 	}
 
-	body, err := io.ReadAll(resp.Body)
+	getBoardsResponse, err := parseResponse[BoardsResponse](resp)
 	if err != nil {
 		return BoardsResponse{}, err
 	}
 
-	var boardsResponse BoardsResponse
-	if err := json.Unmarshal(body, &boardsResponse); err != nil {
-		return BoardsResponse{}, err
-	}
-
-	return boardsResponse, nil
+	return *getBoardsResponse, nil
 }

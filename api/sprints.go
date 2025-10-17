@@ -1,9 +1,7 @@
 package api
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"net/url"
 )
@@ -16,17 +14,12 @@ func (c *Client) GetSprints(boardID string) (SprintsResponse, error) {
 		return SprintsResponse{}, err
 	}
 
-	body, err := io.ReadAll(resp.Body)
+	getSprintsResponse, err := parseResponse[SprintsResponse](resp)
 	if err != nil {
 		return SprintsResponse{}, err
 	}
 
-	var getSprintsResponse SprintsResponse
-	if err := json.Unmarshal(body, &getSprintsResponse); err != nil {
-		return SprintsResponse{}, err
-	}
-
-	return getSprintsResponse, nil
+	return *getSprintsResponse, nil
 }
 
 func (c *Client) GetActiveSprint(boardID string) (Sprint, error) {
@@ -40,13 +33,8 @@ func (c *Client) GetActiveSprint(boardID string) (Sprint, error) {
 		return Sprint{}, err
 	}
 
-	body, err := io.ReadAll(resp.Body)
+	getSprintsResponse, err := parseResponse[SprintsResponse](resp)
 	if err != nil {
-		return Sprint{}, err
-	}
-
-	var getSprintsResponse SprintsResponse
-	if err := json.Unmarshal(body, &getSprintsResponse); err != nil {
 		return Sprint{}, err
 	}
 

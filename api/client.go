@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
@@ -32,7 +33,11 @@ func NewClient(
 	return &client, nil
 }
 
-func (c *Client) Do(method string, path string, body io.Reader) (*http.Response, error) {
+func (c *Client) Do(
+	method string,
+	path string,
+	body io.Reader,
+) (*http.Response, error) {
 	url := c.baseUrl + path
 
 	req, err := http.NewRequest(
@@ -58,4 +63,21 @@ func (c *Client) Do(method string, path string, body io.Reader) (*http.Response,
 	}
 
 	return res, nil
+}
+
+func parseResponse[T any](
+	response *http.Response,
+) (*T, error) {
+
+	responseBody, err := io.ReadAll(response.Body)
+	if err != nil {
+		return new(T), err
+	}
+
+	var parsedResponse T
+	if err := json.Unmarshal(responseBody, &parsedResponse); err != nil {
+		return new(T), err
+	}
+
+	return &parsedResponse, nil
 }
