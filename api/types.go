@@ -11,7 +11,7 @@ type ProjectResponse struct {
 }
 
 type Board struct {
-	Id        string `json:"id"`
+	Id        int    `json:"id"`
 	Name      string `json:"name"`
 	IsPrivate bool   `json:"isPrivate"`
 }
@@ -19,4 +19,14 @@ type Board struct {
 type BoardsResponse struct {
 	IsLast bool    `json:"isLast"`
 	Boards []Board `json:"values"`
+}
+
+type Sprint struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}
+
+type SprintsResponse struct {
+	IsLast  bool    `json:"isLast"`
+	Springs []Board `json:"values"`
 }

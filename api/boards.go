@@ -11,7 +11,7 @@ func (c *Client) GetBoards(projectID string) (BoardsResponse, error) {
 	params := url.Values{}
 	params.Add("projectKeyOrId", projectID)
 
-	fullUrl := c.cloudPath + "project/search" + "?" + params.Encode()
+	fullUrl := c.agilePath + "board" + "?" + params.Encode()
 
 	resp, err := c.Do(http.MethodGet, fullUrl, nil)
 	if err != nil {

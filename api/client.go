@@ -48,5 +48,14 @@ func (c *Client) Do(method string, path string, body io.Reader) (*http.Response,
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("Content-Type", "application/json")
 
-	return c.httpClient.Do(req)
+	res, err := c.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	if res.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("Something went wrong, statusCode=%s", res.Status)
+	}
+
+	return res, nil
 }

@@ -3,10 +3,16 @@ package utils
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"os"
 )
 
+func SaveMockApiResponse(filename string, data []byte) error {
+	return SaveToJsonFile("samples/mockApiResponses/"+filename, data)
+}
+
 func SaveToJsonFile(filename string, data []byte) error {
+	fmt.Printf("saving file to %s\n", filename)
 	// Create or overwrite JSON file
 	file, err := os.Create(filename)
 	if err != nil {
