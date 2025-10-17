@@ -8,6 +8,8 @@ import (
 
 type Client struct {
 	baseUrl    string
+	cloudPath  string
+	agilePath  string
 	username   string
 	token      string
 	httpClient *http.Client
@@ -19,7 +21,9 @@ func NewClient(
 	domain string,
 ) (*Client, error) {
 	client := Client{
-		baseUrl:    fmt.Sprintf("https://%s.atlassian.net/rest/api/3/", domain),
+		baseUrl:    fmt.Sprintf("https://%s.atlassian.net/", domain),
+		cloudPath:  "/rest/api/3/",
+		agilePath:  "/rest/agile/1.0/",
 		username:   username,
 		token:      token,
 		httpClient: &http.Client{},
@@ -28,42 +32,21 @@ func NewClient(
 	return &client, nil
 }
 
-func (c *Client) GetProjects() error {
-	url := c.baseUrl + "project/search"
+func (c *Client) Do(method string, path string, body io.Reader) (*http.Response, error) {
+	url := c.baseUrl + path
 
 	req, err := http.NewRequest(
-		http.MethodGet,
+		method,
 		url,
-		nil,
+		body,
 	)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	req.SetBasicAuth(c.username, c.token)
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set("Content-Type", "application/json")
 
-	res, err := c.httpClient.Do(req)
-	if err != nil {
-		return err
-	}
-
-	// Ensure the response body is closed after reading
-	defer res.Body.Close()
-
-	if res.StatusCode != http.StatusOK {
-		return fmt.Errorf("failed to get data, status=%d", res.StatusCode)
-	}
-
-	// Read the response body
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		return err
-	}
-
-	// Print the response body as a string
-	fmt.Println(string(body))
-
-	return nil
+	return c.httpClient.Do(req)
 }

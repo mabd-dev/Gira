@@ -24,7 +24,7 @@ func main() {
 		return
 	}
 
-	err = client.GetProjects()
+	getProjectsResponse, err := client.GetProjects()
 	if err != nil {
 		fmt.Printf("error getting projects, err=%s", err.Error())
 	}
