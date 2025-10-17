@@ -35,3 +35,28 @@ type SprintsResponse struct {
 	IsLast  bool     `json:"isLast"`
 	Sprints []Sprint `json:"values"`
 }
+
+type IssueAssignee struct {
+	AccountId string `json:"accountId"`
+	Name      string `json:"displayName"`
+}
+
+type IssueStatus struct {
+	Name string `json:"name"`
+}
+
+type IssueFields struct {
+	Assignee    IssueAssignee `json:"assignee"`
+	Status      IssueStatus   `json:"issue"`
+	Summary     string        `json:"summary"`
+	Description string        `json:"description"`
+}
+
+type Issue struct {
+	Id     string      `json:"id"`
+	Fields IssueFields `json:"fields"`
+}
+
+type SprintIssuesResponse struct {
+	Issues []Issue `json:"issues"`
+}

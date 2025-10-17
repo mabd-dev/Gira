@@ -45,3 +45,19 @@ func (c *Client) GetActiveSprint(boardID string) (Sprint, error) {
 	return getSprintsResponse.Sprints[0], nil
 
 }
+
+func (c *Client) GetSprintIssues(sprintID int) (SprintIssuesResponse, error) {
+	fullUrl := c.agilePath + fmt.Sprintf("sprint/%d/issue", sprintID)
+
+	resp, err := c.Do(http.MethodGet, fullUrl, nil)
+	if err != nil {
+		return SprintIssuesResponse{}, err
+	}
+
+	getSprintIssuesResponse, err := parseResponse[SprintIssuesResponse](resp)
+	if err != nil {
+		return SprintIssuesResponse{}, err
+	}
+
+	return *getSprintIssuesResponse, nil
+}

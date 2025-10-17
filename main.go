@@ -43,21 +43,31 @@ func main() {
 	// 	fmt.Println(board)
 	// }
 
-	getSprintsResponse, err := client.GetSprints("54")
+	// getSprintsResponse, err := client.GetSprints("54")
+	// if err != nil {
+	// 	fmt.Printf("error getting sprints, err=%s", err.Error())
+	// 	return
+	// }
+	//
+	// for _, sprint := range getSprintsResponse.Sprints {
+	// 	fmt.Println(sprint)
+	// }
+	//
+
+	// activeSprint, err := client.GetActiveSprint("54")
+	// if err != nil {
+	// 	fmt.Printf("error getting active sprint, err=%s", err.Error())
+	// 	return
+	// }
+	// fmt.Printf("active sprint: %v\n", activeSprint)
+
+	getSprintIssuesResponse, err := client.GetSprintIssues(1853)
 	if err != nil {
-		fmt.Printf("error getting sprints, err=%s", err.Error())
+		fmt.Printf("error getting sprint issues, err=%s", err.Error())
 		return
 	}
 
-	for _, sprint := range getSprintsResponse.Sprints {
-		fmt.Println(sprint)
+	for _, issue := range getSprintIssuesResponse.Issues {
+		fmt.Println(issue)
 	}
-
-	activeSprint, err := client.GetActiveSprint("54")
-	if err != nil {
-		fmt.Printf("error getting active sprint, err=%s", err.Error())
-		return
-	}
-	fmt.Printf("active sprint: %v\n", activeSprint)
-
 }
