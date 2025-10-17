@@ -32,13 +32,33 @@ func main() {
 	// for _, project := range getProjectsResponse.Projects {
 	// 	fmt.Println(project)
 	// }
+	//
+	// getBoardsResponse, err := client.GetBoards("10313")
+	// if err != nil {
+	// 	fmt.Printf("error getting boards, err=%s", err.Error())
+	// 	return
+	// }
 
-	getBoardsResponse, err := client.GetBoards("10313")
+	// for _, board := range getBoardsResponse.Boards {
+	// 	fmt.Println(board)
+	// }
+
+	// getSprintsResponse, err := client.GetSprints("54")
+	// if err != nil {
+	// 	fmt.Printf("error getting sprints, err=%s", err.Error())
+	// 	return
+	// }
+	//
+	// for _, sprint := range getSprintsResponse.Sprints {
+	// 	fmt.Println(sprint)
+	// }
+
+	activeSprint, err := client.GetActiveSprint("54")
 	if err != nil {
-		fmt.Printf("error getting boards, err=%s", err.Error())
+		fmt.Printf("error getting active sprint, err=%s", err.Error())
+		return
 	}
 
-	for _, board := range getBoardsResponse.Boards {
-		fmt.Println(board)
-	}
+	fmt.Printf("active sprint: %v\n", activeSprint)
+
 }

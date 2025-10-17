@@ -18,7 +18,6 @@ func (c *Client) GetBoards(projectID string) (BoardsResponse, error) {
 		return BoardsResponse{}, err
 	}
 
-	// Read the response body
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return BoardsResponse{}, err

@@ -21,7 +21,6 @@ func (c *Client) GetProjects() (ProjectResponse, error) {
 		return ProjectResponse{}, fmt.Errorf("failed to get data, status=%d", res.StatusCode)
 	}
 
-	// Read the response body
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return ProjectResponse{}, err

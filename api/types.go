@@ -22,11 +22,14 @@ type BoardsResponse struct {
 }
 
 type Sprint struct {
-	Id   string `json:"id"`
-	Name string `json:"name"`
+	Id        int    `json:"id"`
+	Name      string `json:"name"`
+	StartDate string `json:"startDate"`
+	EndDate   string `json:"endDate"`
+	Goal      string `json:"goal"`
 }
 
 type SprintsResponse struct {
-	IsLast  bool    `json:"isLast"`
-	Springs []Board `json:"values"`
+	IsLast  bool     `json:"isLast"`
+	Sprints []Sprint `json:"values"`
 }
