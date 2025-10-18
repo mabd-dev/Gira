@@ -1,4 +1,4 @@
-pdackage main
+package main
 
 import (
 	"encoding/json"
@@ -7,6 +7,7 @@ import (
 
 	"github.com/mabd-dev/gira/api"
 	"github.com/mabd-dev/gira/config"
+	"github.com/mabd-dev/gira/internal/logger"
 	"github.com/mabd-dev/gira/models"
 	"github.com/mabd-dev/gira/ui"
 )
@@ -71,6 +72,8 @@ func main() {
 	// 	return
 	// }
 	//
+
+	logger.Init(true, "/.config/gira/logs/")
 
 	fileData, err := os.ReadFile("samples/mockApiResponses/sprintIssues.json")
 	if err != nil {
