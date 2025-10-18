@@ -5,42 +5,33 @@ import (
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"
+	"github.com/mabd-dev/gira/internal/theme"
 	"github.com/mabd-dev/gira/models"
 )
 
 func (m *Model) View() string {
 	if !hasAnyTask(m.tasksByStatus) {
-		return "(No assigned tasks)\n"
+		return m.theme.Styles.Base.Render("(No assigned tasks)\n")
 	}
+
 	body := ""
-	var sb strings.Builder
 	taskIndex := 0
 
 	for _, status := range models.TasksInOrder {
-		body = lipgloss.JoinVertical(lipgloss.Left, body, string(status))
+		taskStatusStr := m.theme.Styles.Muted.Render(string(status))
+		body = lipgloss.JoinVertical(lipgloss.Left, body, taskStatusStr)
 
 		tasks := m.tasksByStatus[status]
 		if len(tasks) == 0 {
-			body = lipgloss.JoinVertical(lipgloss.Left, body, "  (No tasks)\n")
+			s := m.theme.Styles.Muted.Render("  (No tasks)\n")
+			body = lipgloss.JoinVertical(lipgloss.Left, body, s)
 			continue
 		}
 
 		for _, task := range tasks {
-			indicator := "  "
-			if m.selectedTaskIndex == taskIndex {
-				indicator = "> "
-			}
-
-			sb.WriteString(indicator)
-			sb.WriteString("- [")
-			sb.WriteString(strconv.Itoa(task.StoryPoints))
-			sb.WriteString("] ")
-
-			sb.WriteString(strings.TrimSpace(task.Summary))
-
-			body = lipgloss.JoinVertical(lipgloss.Left, body, sb.String())
-
-			sb.Reset()
+			isSelected := m.selectedTaskIndex == taskIndex
+			taskStr := renderTask(task, isSelected, m.theme)
+			body = lipgloss.JoinVertical(lipgloss.Left, body, taskStr)
 
 			taskIndex++
 		}
@@ -59,4 +50,40 @@ func hasAnyTask(tasksByStatus map[models.TaskStatus][]models.DeveloperTask) bool
 		}
 	}
 	return false
+}
+
+func renderTask(
+	task models.DeveloperTask,
+	isSelected bool,
+	theme theme.Theme,
+) string {
+	var style lipgloss.Style
+	if isSelected {
+		style = theme.Styles.Base.Foreground(theme.Colors.Foreground).Bold(true)
+	} else {
+		style = theme.Styles.Base
+	}
+
+	indicator := "  "
+	if isSelected {
+		indicator = style.Render("> ")
+	}
+
+	storyPointsStr := style.Render("- [" + strconv.Itoa(task.StoryPoints) + "] ")
+
+	trimmedTaskSummary := strings.TrimSpace(task.Summary)
+
+	var taskSummaryStr string
+	if isSelected {
+		taskSummaryStr = style.Underline(true).Render(trimmedTaskSummary)
+	} else {
+		taskSummaryStr = style.Render(trimmedTaskSummary)
+	}
+
+	return lipgloss.JoinHorizontal(
+		lipgloss.Left,
+		indicator,
+		storyPointsStr,
+		taskSummaryStr,
+	)
 }

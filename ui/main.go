@@ -20,12 +20,14 @@ func Render(sprint models.Sprint) error {
 		Styles: theme.CreateStyles(colors),
 	}
 
-	var tasksBoard tasksboard.Model
+	var tasksByStatus map[models.TaskStatus][]models.DeveloperTask
 	if len(sprint.Developers) > 0 {
-		tasksBoard = tasksboard.New(sprint.Developers[0].TasksByStatus)
+		tasksByStatus = sprint.Developers[0].TasksByStatus
 	} else {
-		tasksBoard = tasksboard.New(make(map[models.TaskStatus][]models.DeveloperTask))
+		tasksByStatus = make(map[models.TaskStatus][]models.DeveloperTask)
 	}
+
+	tasksBoard := tasksboard.New(tasksByStatus, theme)
 
 	m := model{
 		theme:      theme,
