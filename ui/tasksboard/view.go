@@ -12,7 +12,6 @@ func (m *Model) View() string {
 	if !hasAnyTask(m.tasksByStatus) {
 		return "(No assigned tasks)\n"
 	}
-
 	body := ""
 	var sb strings.Builder
 	taskIndex := 0

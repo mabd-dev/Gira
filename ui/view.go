@@ -2,21 +2,19 @@ package ui
 
 import (
 	"github.com/charmbracelet/lipgloss"
+	"github.com/mabd-dev/gira/internal/theme"
 	"github.com/mabd-dev/gira/models"
 )
 
-var (
-	box = lipgloss.NewStyle().
-		Border(lipgloss.RoundedBorder()).
-		BorderForeground(lipgloss.Color("#89b4fa"))
-
-	mutedBox = lipgloss.NewStyle().
-			Border(lipgloss.RoundedBorder()).
-			BorderForeground(lipgloss.Color("#313244"))
-)
+var headerBoxStyle = lipgloss.NewStyle().
+	Border(lipgloss.Border{
+		Bottom:      "=",
+		BottomLeft:  "=",
+		BottomRight: "=",
+	})
 
 func (m model) View() string {
-	header := header(m.Sprint)
+	header := header(m.Sprint, m.theme)
 	devTabs := developersTabs(m)
 
 	tasksBoard := m.tasksboard.View()
@@ -29,26 +27,35 @@ func (m model) View() string {
 	)
 }
 
-func header(sprint models.Sprint) string {
-	style := lipgloss.NewStyle()
+func header(sprint models.Sprint, theme theme.Theme) string {
+	style := theme.Styles.Base.Foreground(theme.Colors.Foreground).Bold(true)
 
-	return lipgloss.JoinHorizontal(
-		lipgloss.Left,
-		style.Render(sprint.Name),
-		" - ",
-		"Active (6 days remaining)",
+	boxStyle := headerBoxStyle.BorderForeground(theme.Colors.Muted)
+
+	s := lipgloss.JoinVertical(
+		lipgloss.Top,
+		lipgloss.JoinHorizontal(
+			lipgloss.Left,
+			style.Render(sprint.Name),
+			" - ",
+			"6 days remaining", // TODO: calculate remaining days
+		),
 	)
+
+	return boxStyle.Render(s)
+
 }
 
 func developersTabs(m model) string {
-
 	devs := []string{}
 	for i, developer := range m.Sprint.Developers {
 		var style lipgloss.Style
-		if m.SelectedDevIndex == i {
-			style = box
+
+		selected := m.SelectedDevIndex == i
+		if selected {
+			style = m.theme.Styles.Box.Foreground(m.theme.Colors.Foreground).Bold(true)
 		} else {
-			style = mutedBox
+			style = m.theme.Styles.BoxMuted.Foreground(m.theme.Colors.Muted)
 		}
 
 		devs = append(devs, style.Render(developer.Name))
