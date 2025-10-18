@@ -1,12 +1,14 @@
-package main
+pdackage main
 
 import (
+	"encoding/json"
 	"fmt"
+	"os"
 
 	"github.com/mabd-dev/gira/api"
 	"github.com/mabd-dev/gira/config"
-	"github.com/mabd-dev/gira/display"
 	"github.com/mabd-dev/gira/models"
+	"github.com/mabd-dev/gira/ui"
 )
 
 func main() {
@@ -16,7 +18,7 @@ func main() {
 		return
 	}
 
-	client, err := api.NewClient(
+	_, err = api.NewClient(
 		cred.Email,
 		cred.Secret,
 		cred.Domain,
@@ -63,15 +65,25 @@ func main() {
 	// }
 	// fmt.Printf("active sprint: %v\n", activeSprint)
 
-	getSprintIssuesResponse, err := client.GetSprintIssues(1853)
+	// getSprintIssuesResponse, err := client.GetSprintIssues(1853)
+	// if err != nil {
+	// 	fmt.Printf("error getting sprint issues, err=%s", err.Error())
+	// 	return
+	// }
+	//
+
+	fileData, err := os.ReadFile("samples/mockApiResponses/sprintIssues.json")
 	if err != nil {
-		fmt.Printf("error getting sprint issues, err=%s", err.Error())
+		fmt.Printf("error reading json file, err=%s", err.Error())
 		return
 	}
 
-	// for _, issue := range getSprintIssuesResponse.Issues {
-	// 	fmt.Println(issue)
-	// }
+	var getSprintIssuesResponse api.SprintIssuesResponse
+	err = json.Unmarshal(fileData, &getSprintIssuesResponse)
+	if err != nil {
+		fmt.Printf("error unmarshal json data, err=%s", err.Error())
+		return
+	}
 
 	sprint, err := models.FormatSprint(getSprintIssuesResponse)
 	if err != nil {
@@ -79,5 +91,9 @@ func main() {
 		return
 	}
 
-	display.PrintSprint(sprint)
+	err = ui.Render(sprint)
+	if err != nil {
+		fmt.Printf("failed to render using bubbletea, err=%s", err.Error())
+		return
+	}
 }
