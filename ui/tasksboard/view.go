@@ -17,7 +17,7 @@ func (m *Model) View() string {
 	body := ""
 	taskIndex := 0
 
-	for _, status := range models.TasksInOrder {
+	for _, status := range models.TaskStatusInOrder {
 		taskStatusStr := m.theme.Styles.Muted.Render(string(status))
 		body = lipgloss.JoinVertical(lipgloss.Left, body, taskStatusStr)
 
@@ -43,7 +43,7 @@ func (m *Model) View() string {
 }
 
 func hasAnyTask(tasksByStatus map[models.TaskStatus][]models.DeveloperTask) bool {
-	for _, status := range models.TasksInOrder {
+	for _, status := range models.TaskStatusInOrder {
 		tasks := tasksByStatus[status]
 		if len(tasks) > 0 {
 			return true

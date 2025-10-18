@@ -3,6 +3,7 @@ package ui
 import (
 	"github.com/mabd-dev/gira/internal/theme"
 	"github.com/mabd-dev/gira/models"
+	"github.com/mabd-dev/gira/ui/taskdetails"
 	"github.com/mabd-dev/gira/ui/tasksboard"
 )
 
@@ -14,5 +15,6 @@ type model struct {
 	Sprint           models.Sprint
 	SelectedDevIndex int
 
-	tasksboard tasksboard.Model
+	tasksboard  tasksboard.Model
+	taskDetails taskdetails.Model
 }

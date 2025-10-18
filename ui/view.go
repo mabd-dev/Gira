@@ -17,14 +17,25 @@ func (m model) View() string {
 	header := header(m.Sprint, m.theme)
 	devTabs := developersTabs(m)
 
-	tasksBoard := m.tasksboard.View()
+	body := ""
+	if m.taskDetails.Visible() {
+		body = m.taskDetails.View()
+	} else {
+		body = m.tasksboard.View()
+	}
 
-	return lipgloss.JoinVertical(
+	view := lipgloss.JoinVertical(
 		lipgloss.Top,
 		header,
 		devTabs,
-		tasksBoard,
+		body,
 	)
+	view = lipgloss.NewStyle().
+		Width(m.width).
+		Height(m.height).
+		Render(view)
+
+	return view
 }
 
 func header(sprint models.Sprint, theme theme.Theme) string {

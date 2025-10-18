@@ -6,6 +6,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/mabd-dev/gira/internal/theme"
 	"github.com/mabd-dev/gira/models"
+	"github.com/mabd-dev/gira/ui/taskdetails"
 	"github.com/mabd-dev/gira/ui/tasksboard"
 )
 
@@ -28,11 +29,13 @@ func Render(sprint models.Sprint) error {
 	}
 
 	tasksBoard := tasksboard.New(tasksByStatus, theme)
+	taskDetails := taskdetails.New(theme)
 
 	m := model{
-		theme:      theme,
-		Sprint:     sprint,
-		tasksboard: tasksBoard,
+		theme:       theme,
+		Sprint:      sprint,
+		tasksboard:  tasksBoard,
+		taskDetails: taskDetails,
 	}
 
 	p := tea.NewProgram(m, tea.WithOutput(os.Stdout), tea.WithAltScreen())

@@ -12,7 +12,7 @@ var (
 	TaskStatusDone       TaskStatus = "Done"
 )
 
-var TasksInOrder = []TaskStatus{
+var TaskStatusInOrder = []TaskStatus{
 	TaskStatusTodo, TaskStatusInProgress, TaskStatusInReview, TaskStatusDone,
 }
 
