@@ -7,6 +7,14 @@ import (
 )
 
 func (m Model) View() string {
+	return m.viewport.View()
+}
+
+func (m Model) generateContent() string {
+	if m.task == nil {
+		return ""
+	}
+
 	sectionStyle := lipgloss.NewStyle().MarginBottom(1)
 	header := sectionStyle.Render(renderHeader(m))
 	taskSummary := sectionStyle.Render(renderTaskSummary(m))

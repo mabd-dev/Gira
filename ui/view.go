@@ -24,19 +24,19 @@ func (m model) View() string {
 
 	devTabs := developersTabs(m)
 
-	body := ""
-	if m.taskDetails.Visible() {
-		body = m.taskDetails.View()
-	} else {
-		body = m.tasksboard.View()
-	}
-
 	// Calculate heights
 	headerHeight := lipgloss.Height(header)
 	footerHeight := lipgloss.Height(footer)
 	devTabsHeight := lipgloss.Height(devTabs)
 	availableHeight := m.height - headerHeight - footerHeight - devTabsHeight
 
+	body := ""
+	if m.taskDetails.Visible() {
+		m.taskDetails.UpdateSize(m.width, availableHeight)
+		body = m.taskDetails.View()
+	} else {
+		body = m.tasksboard.View()
+	}
 	body = lipgloss.NewStyle().
 		Height(availableHeight).
 		MaxHeight(availableHeight).

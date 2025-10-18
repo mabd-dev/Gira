@@ -1,13 +1,15 @@
 package taskdetails
 
 import (
+	"github.com/charmbracelet/bubbles/viewport"
 	"github.com/mabd-dev/gira/internal/theme"
 	"github.com/mabd-dev/gira/models"
 )
 
 type Model struct {
-	task  *task
-	theme theme.Theme
+	viewport viewport.Model
+	task     *task
+	theme    theme.Theme
 }
 
 type task struct {
