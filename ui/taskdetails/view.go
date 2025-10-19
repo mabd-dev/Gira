@@ -61,12 +61,13 @@ func renderTaskDescription(m Model) string {
 		return ""
 	}
 
-	fgStyle := m.theme.Styles.Base.Foreground(m.theme.Colors.Foreground)
+	formattedDescription := formatJiraDescription(m.task.Description, m.theme)
 
 	return lipgloss.JoinVertical(
 		lipgloss.Left,
 
 		m.theme.Styles.Muted.Render("description:"),
-		fgStyle.Render(m.task.Description),
+		formattedDescription,
+		// m.task.Description,
 	)
 }

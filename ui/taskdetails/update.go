@@ -2,7 +2,6 @@ package taskdetails
 
 import (
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/mabd-dev/gira/internal/logger"
 )
 
 func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
