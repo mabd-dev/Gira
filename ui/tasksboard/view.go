@@ -18,7 +18,8 @@ func (m *Model) View() string {
 	taskIndex := 0
 
 	for _, status := range models.TaskStatusInOrder {
-		taskStatusStr := m.theme.Styles.Muted.Render(string(status))
+		icon := status.GetIcon()
+		taskStatusStr := status.GetStyle(m.theme).Render(icon + " " + string(status))
 		body = lipgloss.JoinVertical(lipgloss.Left, body, taskStatusStr)
 
 		tasks := m.tasksByStatus[status]

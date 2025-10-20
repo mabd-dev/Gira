@@ -1,6 +1,11 @@
 package models
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/charmbracelet/lipgloss"
+	"github.com/mabd-dev/gira/internal/theme"
+)
 
 type TaskStatus string
 
@@ -36,15 +41,29 @@ func getTaskStatusFrom(s string) (TaskStatus, error) {
 func (t TaskStatus) GetIcon() string {
 	switch t {
 	case TaskStatusTodo:
-		return ""
+		return "○"
 	case TaskStatusInProgress:
-		return "⌛"
+		return "◐"
 	case TaskStatusInReview:
-		return ""
+		return "◎"
 	case TaskStatusStaging:
 		return ""
 	case TaskStatusDone:
-		return "✅"
+		return "●"
 	}
 	return ""
+}
+
+func (ts TaskStatus) GetStyle(theme theme.Theme) lipgloss.Style {
+	switch ts {
+	case TaskStatusTodo:
+		return theme.Styles.Base.Bold(true).Foreground(theme.Colors.Muted)
+	case TaskStatusInProgress:
+		return theme.Styles.Base.Bold(true).Foreground(theme.Colors.Info)
+	case TaskStatusInReview:
+		return theme.Styles.Base.Bold(true).Foreground(theme.Colors.Warning)
+	case TaskStatusDone:
+		return theme.Styles.Base.Bold(true).Foreground(theme.Colors.Success)
+	}
+	return theme.Styles.Base
 }
