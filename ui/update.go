@@ -2,6 +2,7 @@ package ui
 
 import (
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/mabd-dev/gira/internal/logger"
 	"github.com/mabd-dev/gira/models"
 	"github.com/mabd-dev/gira/ui/tasksboard"
 )
@@ -22,6 +23,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, cmd
 
 	case fetchSprintResponse:
+		if msg.err != nil {
+			logger.Error("error fetching sprint data", logger.StringAttr("error", msg.err.Error()))
+			m.loading = false
+			return m, nil
+		}
 		m.Sprint = msg.sprint
 
 		var tasksByStatus map[models.TaskStatus][]models.DeveloperTask
