@@ -5,12 +5,11 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/mabd-dev/gira/internal/theme"
-	"github.com/mabd-dev/gira/models"
 	"github.com/mabd-dev/gira/ui/taskdetails"
 	"github.com/mabd-dev/gira/ui/tasksboard"
 )
 
-func Render(sprint models.Sprint) error {
+func Render() error {
 	colors, err := theme.CreateColors("catppuccin-mocha")
 	if err != nil {
 		return err
@@ -21,19 +20,13 @@ func Render(sprint models.Sprint) error {
 		Styles: theme.CreateStyles(colors),
 	}
 
-	var tasksByStatus map[models.TaskStatus][]models.DeveloperTask
-	if len(sprint.Developers) > 0 {
-		tasksByStatus = sprint.Developers[0].TasksByStatus
-	} else {
-		tasksByStatus = make(map[models.TaskStatus][]models.DeveloperTask)
-	}
-
-	tasksBoard := tasksboard.New(tasksByStatus, theme)
+	tasksBoard := tasksboard.New(theme)
 	taskDetails := taskdetails.New(theme)
 
 	m := model{
-		theme:       theme,
-		Sprint:      sprint,
+		theme:   theme,
+		loading: true,
+		//Sprint:      sprint,
 		tasksboard:  tasksBoard,
 		taskDetails: taskDetails,
 	}
@@ -45,5 +38,5 @@ func Render(sprint models.Sprint) error {
 }
 
 func (m model) Init() tea.Cmd {
-	return nil
+	return fetchSprint{sprintID: 1122}.Cmd()
 }

@@ -18,6 +18,11 @@ var Keybindings = []common.Keybinding{
 		Description: "Open task details",
 		ShortDesc:   "Details",
 	},
+	{
+		Key:         "r",
+		Description: "Refetch sprint tasks",
+		ShortDesc:   "Refresh",
+	},
 	// {
 	// 	Key:         "/",
 	// 	Description: "Filter by repo/branch name",

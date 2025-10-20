@@ -8,9 +8,10 @@ import (
 )
 
 type model struct {
-	theme  theme.Theme
-	width  int
-	height int
+	theme   theme.Theme
+	width   int
+	height  int
+	loading bool
 
 	Sprint           models.Sprint
 	SelectedDevIndex int

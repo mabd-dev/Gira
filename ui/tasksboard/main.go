@@ -8,14 +8,13 @@ import (
 )
 
 func New(
-	tasksByStatus map[models.TaskStatus][]models.DeveloperTask,
 	theme theme.Theme,
 ) Model {
 	return Model{
-		tasksByStatus:     tasksByStatus,
+		tasksByStatus:     map[models.TaskStatus][]models.DeveloperTask{},
 		theme:             theme,
 		selectedTaskIndex: 0,
-		totalTasksCount:   totalTasksCount(tasksByStatus),
+		totalTasksCount:   0,
 	}
 }
 

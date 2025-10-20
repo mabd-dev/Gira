@@ -2,6 +2,7 @@ package ui
 
 import (
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/mabd-dev/gira/models"
 	"github.com/mabd-dev/gira/ui/tasksboard"
 )
 
@@ -20,6 +21,19 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.taskDetails, cmd = m.taskDetails.Update(msg)
 		return m, cmd
 
+	case fetchSprintResponse:
+		m.Sprint = msg.sprint
+
+		var tasksByStatus map[models.TaskStatus][]models.DeveloperTask
+		if len(msg.sprint.Developers) > 0 {
+			tasksByStatus = msg.sprint.Developers[0].TasksByStatus
+		} else {
+			tasksByStatus = make(map[models.TaskStatus][]models.DeveloperTask)
+		}
+		m.tasksboard.UpdateTasks(tasksByStatus)
+		m.loading = false
+		return m, nil
+
 	case tasksboard.TaskSelected:
 		dev := m.Sprint.Developers[m.SelectedDevIndex]
 		task := m.Sprint.Developers[m.SelectedDevIndex].TasksByStatus[msg.Status][msg.TaskIndex]
@@ -37,6 +51,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "q", "esc", "ctrl+c":
 			return m, tea.Quit
+
+		case "r":
+			m.loading = true
+			return m, fetchSprint{sprintID: 1}.Cmd()
 
 		case "tab":
 			if len(m.Sprint.Developers) > 0 {

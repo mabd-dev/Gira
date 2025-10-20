@@ -1,14 +1,11 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"os"
 
 	"github.com/mabd-dev/gira/api"
 	"github.com/mabd-dev/gira/config"
 	"github.com/mabd-dev/gira/internal/logger"
-	"github.com/mabd-dev/gira/models"
 	"github.com/mabd-dev/gira/ui"
 )
 
@@ -75,26 +72,26 @@ func main() {
 
 	logger.Init(true, "/.config/gira/logs/")
 
-	fileData, err := os.ReadFile("samples/mockApiResponses/sprintIssues.json")
-	if err != nil {
-		fmt.Printf("error reading json file, err=%s", err.Error())
-		return
-	}
+	// fileData, err := os.ReadFile("samples/mockApiResponses/sprintIssues.json")
+	// if err != nil {
+	// 	fmt.Printf("error reading json file, err=%s", err.Error())
+	// 	return
+	// }
+	//
+	// var getSprintIssuesResponse api.SprintIssuesResponse
+	// err = json.Unmarshal(fileData, &getSprintIssuesResponse)
+	// if err != nil {
+	// 	fmt.Printf("error unmarshal json data, err=%s", err.Error())
+	// 	return
+	// }
+	//
+	// sprint, err := models.FormatSprint(getSprintIssuesResponse)
+	// if err != nil {
+	// 	fmt.Printf("error formatting sprint, err=%s", err.Error())
+	// 	return
+	// }
 
-	var getSprintIssuesResponse api.SprintIssuesResponse
-	err = json.Unmarshal(fileData, &getSprintIssuesResponse)
-	if err != nil {
-		fmt.Printf("error unmarshal json data, err=%s", err.Error())
-		return
-	}
-
-	sprint, err := models.FormatSprint(getSprintIssuesResponse)
-	if err != nil {
-		fmt.Printf("error formatting sprint, err=%s", err.Error())
-		return
-	}
-
-	err = ui.Render(sprint)
+	err = ui.Render()
 	if err != nil {
 		fmt.Printf("failed to render using bubbletea, err=%s", err.Error())
 		return

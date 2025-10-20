@@ -19,6 +19,10 @@ var headerBoxStyle = lipgloss.NewStyle().
 	})
 
 func (m model) View() string {
+	if m.loading {
+		return "Fetching sprint data ..."
+	}
+
 	header := header(m.Sprint, m.theme)
 	footer := footer(m)
 
