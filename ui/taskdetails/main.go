@@ -30,6 +30,7 @@ func (m *Model) Show(
 		StoryPoints: storyPoints,
 	}
 	m.task = &task
+	m.viewport.SetYOffset(0)
 	m.viewport.SetContent(m.generateContent())
 }
 
