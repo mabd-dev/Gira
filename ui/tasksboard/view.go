@@ -80,10 +80,45 @@ func renderTask(
 		taskSummaryStr = style.Render(trimmedTaskSummary)
 	}
 
+	metadata := renderTaskMetaData(task, theme)
+
+	return lipgloss.JoinVertical(
+		lipgloss.Top,
+		lipgloss.JoinHorizontal(
+			lipgloss.Left,
+			indicator,
+			storyPointsStr,
+			taskSummaryStr,
+		),
+		metadata,
+	)
+}
+
+func renderTaskMetaData(
+	task models.DeveloperTask,
+	theme theme.Theme,
+) string {
+	if len(task.Components) == 0 || len(task.FixVersions) == 0 {
+		return ""
+	}
+
+	style := theme.Styles.Muted
+
+	components := ""
+	versions := ""
+
+	if len(task.Components) > 0 {
+		components = "    components: [" + strings.Join(task.Components, ",") + "]"
+	}
+
+	if len(task.FixVersions) > 0 {
+		versions = "V: [" + strings.Join(task.FixVersions, ",") + "]"
+	}
+
 	return lipgloss.JoinHorizontal(
 		lipgloss.Left,
-		indicator,
-		storyPointsStr,
-		taskSummaryStr,
-	)
+		style.Render(components),
+		style.Render(" | "),
+		style.Render(versions),
+	) + "\n"
 }

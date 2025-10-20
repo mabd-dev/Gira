@@ -57,6 +57,9 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 
 		case "r":
+			if m.loading {
+				return m, nil
+			}
 			m.loading = true
 			return m, fetchSprint{sprintID: 1}.Cmd()
 

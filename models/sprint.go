@@ -27,6 +27,8 @@ type DeveloperTask struct {
 	Summary     string
 	Description string
 	StoryPoints int
+	Components  []string
+	FixVersions []string
 }
 
 func FormatSprint(
@@ -86,6 +88,8 @@ func FormatSprint(
 			Summary:     issue.Fields.Summary,
 			Description: issue.Fields.Description,
 			StoryPoints: int(issue.Fields.StoryPoints),
+			Components:  parseIssueComponents(issue.Fields.Components),
+			FixVersions: parseIssueFixVersions(issue.Fields.FixVersions),
 		})
 		developer.TasksByStatus[taskStatus] = tasks
 
@@ -99,4 +103,22 @@ func FormatSprint(
 	}
 
 	return sprint, nil
+}
+
+func parseIssueComponents(cmps []api.IssueComponent) []string {
+	result := []string{}
+	for _, cmp := range cmps {
+		result = append(result, cmp.Name)
+	}
+
+	return result
+}
+
+func parseIssueFixVersions(versions []api.IssueFixVersion) []string {
+	result := []string{}
+	for _, version := range versions {
+		result = append(result, version.Name)
+	}
+
+	return result
 }
