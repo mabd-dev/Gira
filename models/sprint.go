@@ -2,6 +2,8 @@ package models
 
 import (
 	"fmt"
+	"slices"
+	"sort"
 	"strings"
 
 	"github.com/mabd-dev/gira/api"
@@ -38,18 +40,24 @@ func FormatSprint(
 	firstIssue := sprintIssuesResponse.Issues[0]
 
 	sprint := Sprint{
-		Name:      firstIssue.Fields.Sprint.Name,
-		StartDate: firstIssue.Fields.Sprint.StartDate,
-		EndDate:   firstIssue.Fields.Sprint.EndDate,
-		Goal:      firstIssue.Fields.Sprint.Goal,
+		Name:       firstIssue.Fields.Sprint.Name,
+		StartDate:  firstIssue.Fields.Sprint.StartDate,
+		EndDate:    firstIssue.Fields.Sprint.EndDate,
+		Goal:       firstIssue.Fields.Sprint.Goal,
+		Developers: []Developer{},
 	}
 
+	devNames := []string{}
 	developersByName := map[string]Developer{}
 
 	for _, issue := range sprintIssuesResponse.Issues {
 		devName := issue.Fields.Assignee.Name
 		if len(strings.TrimSpace(devName)) == 0 {
 			devName = "Unassigned"
+		}
+
+		if !slices.Contains(devNames, devName) {
+			devNames = append(devNames, devName)
 		}
 
 		_, ok := developersByName[devName]
@@ -84,11 +92,11 @@ func FormatSprint(
 		developersByName[devName] = developer
 	}
 
-	developers := []Developer{}
-	for _, dev := range developersByName {
-		developers = append(developers, dev)
+	sort.Strings(devNames)
+
+	for _, devName := range devNames {
+		sprint.Developers = append(sprint.Developers, developersByName[devName])
 	}
-	sprint.Developers = developers
 
 	return sprint, nil
 }
