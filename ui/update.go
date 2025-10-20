@@ -23,6 +23,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		return m, cmd
 
 	case fetchSprintResponse:
+		m.err = msg.err
+
 		if msg.err != nil {
 			logger.Error("error fetching sprint data", logger.StringAttr("error", msg.err.Error()))
 			m.loading = false

@@ -22,6 +22,9 @@ func (m model) View() string {
 	if m.loading {
 		return "Fetching sprint data ..."
 	}
+	if m.err != nil {
+		return renderErrorFetching(m)
+	}
 
 	header := header(m.Sprint, m.theme)
 	footer := footer(m)
@@ -96,6 +99,31 @@ func developersTabs(m model) string {
 	}
 
 	return lipgloss.JoinHorizontal(lipgloss.Left, devs...)
+}
+
+func renderErrorFetching(m model) string {
+	header := lipgloss.JoinVertical(
+		lipgloss.Top,
+		m.theme.Styles.Base.Foreground(m.theme.Colors.Error).Bold(true).Render("Error"),
+		m.theme.Styles.Base.Foreground(m.theme.Colors.Foreground).Render(m.err.Error()),
+	)
+	footer := renderKeybindings(ErrorFetchingSprintKeybindings, m.theme)
+
+	headerHeight := lipgloss.Height(header)
+	footerHeight := lipgloss.Height(footer)
+
+	availableHeight := m.height - headerHeight - footerHeight
+
+	body := lipgloss.NewStyle().
+		Height(availableHeight).
+		Render("")
+
+	return lipgloss.JoinVertical(
+		lipgloss.Top,
+		header,
+		body,
+		footer,
+	)
 }
 
 func footer(m model) string {

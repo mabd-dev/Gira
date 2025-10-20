@@ -12,6 +12,7 @@ type model struct {
 	width   int
 	height  int
 	loading bool
+	err     error
 
 	Sprint           models.Sprint
 	SelectedDevIndex int
