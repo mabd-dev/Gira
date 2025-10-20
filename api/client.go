@@ -7,6 +7,8 @@ import (
 	"net/http"
 )
 
+var client Client
+
 type Client struct {
 	baseURL    string
 	cloudPath  string
@@ -21,7 +23,7 @@ func NewClient(
 	token string,
 	domain string,
 ) (*Client, error) {
-	client := Client{
+	client = Client{
 		baseURL:    fmt.Sprintf("https://%s.atlassian.net/", domain),
 		cloudPath:  "/rest/api/3/",
 		agilePath:  "/rest/agile/1.0/",
@@ -31,6 +33,10 @@ func NewClient(
 	}
 
 	return &client, nil
+}
+
+func GetClient() Client {
+	return client
 }
 
 func (c *Client) Do(

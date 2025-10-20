@@ -26,7 +26,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		var tasksByStatus map[models.TaskStatus][]models.DeveloperTask
 		if len(msg.sprint.Developers) > 0 {
-			tasksByStatus = msg.sprint.Developers[0].TasksByStatus
+			index := 0
+			if m.SelectedDevIndex < len(msg.sprint.Developers)-1 {
+				index = m.SelectedDevIndex
+			}
+			tasksByStatus = msg.sprint.Developers[index].TasksByStatus
 		} else {
 			tasksByStatus = make(map[models.TaskStatus][]models.DeveloperTask)
 		}
