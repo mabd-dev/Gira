@@ -1,3 +1,4 @@
+// Package ui handles rendering data on terminal screen powered by bubbletea project
 package ui
 
 import (

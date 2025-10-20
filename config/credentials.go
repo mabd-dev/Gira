@@ -1,3 +1,4 @@
+// Package config handle user credentials and config fetching/saving
 package config
 
 import (
