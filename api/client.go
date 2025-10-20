@@ -8,7 +8,7 @@ import (
 )
 
 type Client struct {
-	baseUrl    string
+	baseURL    string
 	cloudPath  string
 	agilePath  string
 	username   string
@@ -22,7 +22,7 @@ func NewClient(
 	domain string,
 ) (*Client, error) {
 	client := Client{
-		baseUrl:    fmt.Sprintf("https://%s.atlassian.net/", domain),
+		baseURL:    fmt.Sprintf("https://%s.atlassian.net/", domain),
 		cloudPath:  "/rest/api/3/",
 		agilePath:  "/rest/agile/1.0/",
 		username:   username,
@@ -38,7 +38,7 @@ func (c *Client) Do(
 	path string,
 	body io.Reader,
 ) (*http.Response, error) {
-	url := c.baseUrl + path
+	url := c.baseURL + path
 
 	req, err := http.NewRequest(
 		method,
