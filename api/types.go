@@ -3,7 +3,7 @@ package api
 type EmptyResponse struct{}
 
 type Project struct {
-	Id   string `json:"id"`
+	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
@@ -13,7 +13,7 @@ type ProjectResponse struct {
 }
 
 type Board struct {
-	Id        int    `json:"id"`
+	ID        int    `json:"id"`
 	Name      string `json:"name"`
 	IsPrivate bool   `json:"isPrivate"`
 }
@@ -24,7 +24,7 @@ type BoardsResponse struct {
 }
 
 type Sprint struct {
-	Id        int    `json:"id"`
+	ID        int    `json:"id"`
 	Name      string `json:"name"`
 	StartDate string `json:"startDate"`
 	EndDate   string `json:"endDate"`
@@ -37,7 +37,7 @@ type SprintsResponse struct {
 }
 
 type IssueAssignee struct {
-	AccountId string `json:"accountId"`
+	AccountID string `json:"accountId"`
 	Name      string `json:"displayName"`
 }
 
@@ -67,7 +67,7 @@ type IssueFields struct {
 }
 
 type Issue struct {
-	Id     string      `json:"id"`
+	ID     string      `json:"id"`
 	Fields IssueFields `json:"fields"`
 }
 

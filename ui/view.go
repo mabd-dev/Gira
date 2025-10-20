@@ -32,7 +32,7 @@ func (m model) View() string {
 	headerHeight := lipgloss.Height(header)
 	footerHeight := lipgloss.Height(footer)
 	devTabsHeight := lipgloss.Height(devTabs)
-	availableHeight := m.height - headerHeight - footerHeight - devTabsHeight - 4
+	availableHeight := m.height - headerHeight - footerHeight - devTabsHeight
 
 	body := ""
 	if m.taskDetails.Visible() {
