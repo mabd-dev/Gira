@@ -1,6 +1,8 @@
 package projects
 
 import (
+	"sort"
+
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/mabd-dev/gira/api"
 	"github.com/mabd-dev/gira/internal/theme"
@@ -10,6 +12,7 @@ import (
 func New(theme theme.Theme) Model {
 	return Model{
 		loading: true,
+		height:  20, // Default height, will be updated with WindowSizeMsg
 	}
 }
 
@@ -29,6 +32,11 @@ func fetchProjectsCmd() tea.Cmd {
 		if err != nil {
 			return fetchProjectsResponse{err: err}
 		}
+
+		// Sort projects by ID
+		sort.Slice(projects, func(i, j int) bool {
+			return projects[i].ID < projects[j].ID
+		})
 
 		return fetchProjectsResponse{
 			projects: projects,

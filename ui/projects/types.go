@@ -7,6 +7,8 @@ import (
 type Model struct {
 	projects []models.Project
 	cursor   int
+	offset   int
+	height   int
 	loading  bool
 	err      error
 }

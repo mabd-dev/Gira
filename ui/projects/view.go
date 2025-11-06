@@ -21,7 +21,21 @@ func (m Model) View() string {
 	var b strings.Builder
 	b.WriteString("Projects:\n\n")
 
-	for i, project := range m.projects {
+	// Calculate visible range
+	start := m.offset
+	end := m.offset + m.height
+	if end > len(m.projects) {
+		end = len(m.projects)
+	}
+
+	// Show indicator if there are items above
+	if m.offset > 0 {
+		b.WriteString(fmt.Sprintf("  ... (%d more above)\n", m.offset))
+	}
+
+	// Show visible items
+	for i := start; i < end; i++ {
+		project := m.projects[i]
 		cursor := " "
 		if m.cursor == i {
 			cursor = ">"
@@ -29,6 +43,11 @@ func (m Model) View() string {
 
 		line := fmt.Sprintf("%s %s (%s)\n", cursor, project.Name, project.ProjectTypeKey)
 		b.WriteString(line)
+	}
+
+	// Show indicator if there are items below
+	if end < len(m.projects) {
+		b.WriteString(fmt.Sprintf("  ... (%d more below)\n", len(m.projects)-end))
 	}
 
 	return b.String()
