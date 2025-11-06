@@ -8,10 +8,7 @@ import (
 	"github.com/mabd-dev/gira/models"
 )
 
-type TaskSelected struct {
-	Status    models.TaskStatus
-	TaskIndex int
-}
+type NoMsg struct{}
 
 func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 
@@ -25,7 +22,7 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 				return m, nil
 			}
 			return m, func() tea.Msg {
-				return TaskSelected{
+				return TaskSelectedMsg{
 					Status:    status,
 					TaskIndex: taskIndex,
 				}

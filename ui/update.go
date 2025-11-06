@@ -46,7 +46,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.loading = false
 		return m, nil
 
-	case tasksboard.TaskSelected:
+	case tasksboard.TaskSelectedMsg:
 		dev := m.Sprint.Developers[m.SelectedDevIndex]
 		task := m.Sprint.Developers[m.SelectedDevIndex].TasksByStatus[msg.Status][msg.TaskIndex]
 

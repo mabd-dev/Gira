@@ -64,8 +64,10 @@ func (c *Client) Do(
 		return nil, err
 	}
 
-	if res.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("Something went wrong, statusCode=%s", res.Status)
+	if res.StatusCode < 200 || res.StatusCode > 299 {
+		defer res.Body.Close()
+		body, _ := io.ReadAll(res.Body)
+		return nil, fmt.Errorf("Something went wrong, statusCode=%s, error=%s", res.Status, string(body))
 	}
 
 	return res, nil
@@ -74,6 +76,7 @@ func (c *Client) Do(
 func parseResponse[T any](
 	response *http.Response,
 ) (*T, error) {
+	defer response.Body.Close()
 
 	responseBody, err := io.ReadAll(response.Body)
 	if err != nil {

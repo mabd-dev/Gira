@@ -11,3 +11,8 @@ type Model struct {
 	selectedTaskIndex int
 	totalTasksCount   int
 }
+
+type TaskSelectedMsg struct {
+	Status    models.TaskStatus
+	TaskIndex int
+}
