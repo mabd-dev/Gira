@@ -19,8 +19,8 @@ type model struct {
 	Sprint           models.Sprint
 	SelectedDevIndex int
 
-	projects    projects.Model
-	boards      boards.Model
-	tasksboard  tasksboard.Model
-	taskDetails taskdetails.Model
+	projectsModel    projects.Model
+	boardsModel      boards.Model
+	tasksboardModel  tasksboard.Model
+	taskDetailsModel taskdetails.Model
 }

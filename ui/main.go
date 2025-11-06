@@ -32,10 +32,10 @@ func Render() error {
 		theme:   theme,
 		loading: true,
 		//Sprint:      sprint,
-		projects:    projects,
-		boards:      boards,
-		tasksboard:  tasksBoard,
-		taskDetails: taskDetails,
+		projectsModel:    projects,
+		boardsModel:      boards,
+		tasksboardModel:  tasksBoard,
+		taskDetailsModel: taskDetails,
 	}
 
 	p := tea.NewProgram(m, tea.WithOutput(os.Stdout), tea.WithAltScreen())
@@ -45,7 +45,7 @@ func Render() error {
 }
 
 func (m model) Init() tea.Cmd {
-	return m.boards.Init()
+	return m.boardsModel.Init()
 	//return m.projects.Init()
 	//return fetchSprintCmd(1122)
 }

@@ -38,11 +38,11 @@ func (m model) View() string {
 	availableHeight := m.height - headerHeight - footerHeight - devTabsHeight
 
 	body := ""
-	if m.taskDetails.Visible() {
-		m.taskDetails.UpdateSize(m.width, availableHeight)
-		body = m.taskDetails.View()
+	if m.taskDetailsModel.Visible() {
+		m.taskDetailsModel.UpdateSize(m.width, availableHeight)
+		body = m.taskDetailsModel.View()
 	} else {
-		body = m.tasksboard.View()
+		body = m.tasksboardModel.View()
 	}
 	body = lipgloss.NewStyle().
 		Height(availableHeight).
@@ -127,7 +127,7 @@ func renderErrorFetching(m model) string {
 }
 
 func footer(m model) string {
-	if m.taskDetails.Visible() {
+	if m.taskDetailsModel.Visible() {
 		return renderKeybindings(taskdetails.Keybindings, m.theme)
 	} else {
 		return renderKeybindings(tasksboard.Keybindings, m.theme)
