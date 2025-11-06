@@ -1,10 +1,12 @@
 package projects
 
 import (
+	"github.com/mabd-dev/gira/internal/theme"
 	"github.com/mabd-dev/gira/models"
 )
 
 type Model struct {
+	theme    theme.Theme
 	projects []models.Project
 	cursor   int
 	offset   int

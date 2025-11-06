@@ -1,10 +1,12 @@
 package boards
 
 import (
+	"github.com/mabd-dev/gira/internal/theme"
 	"github.com/mabd-dev/gira/models"
 )
 
 type Model struct {
+	theme     theme.Theme
 	projectID string
 	boards    []models.Board
 	cursor    int

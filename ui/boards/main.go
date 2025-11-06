@@ -9,8 +9,9 @@ import (
 	"github.com/mabd-dev/gira/models"
 )
 
-func New(theme theme.Theme, projectID string) Model {
+func New(t theme.Theme, projectID string) Model {
 	return Model{
+		theme:     t,
 		projectID: projectID,
 		loading:   true,
 		height:    20, // Default height, will be updated with WindowSizeMsg
