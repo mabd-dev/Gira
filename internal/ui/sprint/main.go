@@ -6,9 +6,9 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/mabd-dev/gira/api"
 	"github.com/mabd-dev/gira/internal/theme"
+	"github.com/mabd-dev/gira/internal/ui/sprint/taskdetails"
+	"github.com/mabd-dev/gira/internal/ui/sprint/tasksboard"
 	"github.com/mabd-dev/gira/models"
-	"github.com/mabd-dev/gira/ui/taskdetails"
-	"github.com/mabd-dev/gira/ui/tasksboard"
 )
 
 func New(t theme.Theme) Model {

@@ -2,8 +2,8 @@ package ui
 
 import (
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/mabd-dev/gira/ui/boards"
-	"github.com/mabd-dev/gira/ui/projects"
+	"github.com/mabd-dev/gira/internal/ui/boards"
+	"github.com/mabd-dev/gira/internal/ui/projects"
 )
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {

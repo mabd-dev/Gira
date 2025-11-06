@@ -2,8 +2,8 @@ package sprint
 
 import (
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/mabd-dev/gira/internal/ui/sprint/tasksboard"
 	"github.com/mabd-dev/gira/models"
-	"github.com/mabd-dev/gira/ui/tasksboard"
 )
 
 func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {

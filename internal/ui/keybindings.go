@@ -1,6 +1,6 @@
 package ui
 
-import "github.com/mabd-dev/gira/ui/common"
+import "github.com/mabd-dev/gira/internal/ui/common"
 
 var ErrorFetchingSprintKeybindings = []common.Keybinding{
 	{

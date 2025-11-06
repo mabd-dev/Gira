@@ -5,7 +5,7 @@ import (
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/mabd-dev/gira/internal/theme"
-	"github.com/mabd-dev/gira/ui/common"
+	"github.com/mabd-dev/gira/internal/ui/common"
 )
 
 func (m model) View() string {

@@ -6,18 +6,18 @@ import (
 	"github.com/mabd-dev/gira/api"
 	"github.com/mabd-dev/gira/config"
 	"github.com/mabd-dev/gira/internal/logger"
-	"github.com/mabd-dev/gira/ui"
+	"github.com/mabd-dev/gira/internal/ui"
 )
 
 func main() {
 
-	// if err := createMockAPIClient(); err != nil {
-	// 	panic(err)
-	// }
-
-	if err := createRealApiClient(); err != nil {
+	if err := createMockAPIClient(); err != nil {
 		panic(err)
 	}
+
+	// if err := createRealApiClient(); err != nil {
+	// 	panic(err)
+	// }
 
 	// getProjectsResponse, err := client.GetProjects()
 	// if err != nil {

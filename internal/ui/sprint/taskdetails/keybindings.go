@@ -1,6 +1,6 @@
 package taskdetails
 
-import "github.com/mabd-dev/gira/ui/common"
+import "github.com/mabd-dev/gira/internal/ui/common"
 
 var Keybindings = []common.Keybinding{
 	{

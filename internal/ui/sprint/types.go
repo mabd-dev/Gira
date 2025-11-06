@@ -2,9 +2,9 @@ package sprint
 
 import (
 	"github.com/mabd-dev/gira/internal/theme"
+	"github.com/mabd-dev/gira/internal/ui/sprint/taskdetails"
+	"github.com/mabd-dev/gira/internal/ui/sprint/tasksboard"
 	"github.com/mabd-dev/gira/models"
-	"github.com/mabd-dev/gira/ui/taskdetails"
-	"github.com/mabd-dev/gira/ui/tasksboard"
 )
 
 type Model struct {
