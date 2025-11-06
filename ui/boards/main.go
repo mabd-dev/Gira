@@ -9,17 +9,20 @@ import (
 	"github.com/mabd-dev/gira/models"
 )
 
-func New(t theme.Theme, projectID string) Model {
+func New(t theme.Theme) Model {
 	return Model{
-		theme:     t,
-		projectID: projectID,
-		loading:   true,
-		height:    20, // Default height, will be updated with WindowSizeMsg
+		theme:   t,
+		loading: true,
+		height:  20, // Default height, will be updated with WindowSizeMsg
 	}
 }
 
 func (m *Model) Init() tea.Cmd {
 	return fetchBoardsCmd(m.projectID)
+}
+
+func (m *Model) SetProjectID(id string) {
+	m.projectID = id
 }
 
 func fetchBoardsCmd(projectID string) tea.Cmd {

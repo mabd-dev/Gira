@@ -23,19 +23,13 @@ func Render() error {
 		Styles: theme.CreateStyles(colors),
 	}
 
-	projects := projects.New(theme)
-	boards := boards.New(theme, "10313")
-	tasksBoard := tasksboard.New(theme)
-	taskDetails := taskdetails.New(theme)
-
 	m := model{
-		theme:   theme,
-		loading: true,
-		//Sprint:      sprint,
-		projectsModel:    projects,
-		boardsModel:      boards,
-		tasksboardModel:  tasksBoard,
-		taskDetailsModel: taskDetails,
+		theme:            theme,
+		focusedState:     FocusProjects,
+		projectsModel:    projects.New(theme),
+		boardsModel:      boards.New(theme),
+		tasksboardModel:  tasksboard.New(theme),
+		taskDetailsModel: taskdetails.New(theme),
 	}
 
 	p := tea.NewProgram(m, tea.WithOutput(os.Stdout), tea.WithAltScreen())
@@ -45,7 +39,5 @@ func Render() error {
 }
 
 func (m model) Init() tea.Cmd {
-	return m.boardsModel.Init()
-	//return m.projects.Init()
-	//return fetchSprintCmd(1122)
+	return m.projectsModel.Init()
 }

@@ -4,12 +4,28 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/mabd-dev/gira/internal/logger"
 	"github.com/mabd-dev/gira/models"
+	"github.com/mabd-dev/gira/ui/projects"
 	"github.com/mabd-dev/gira/ui/tasksboard"
 )
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	var cmd tea.Cmd
+
+	switch m.focusedState {
+	case FocusProjects:
+		m.projectsModel, cmd = m.projectsModel.Update(msg)
+	case FocusBoards:
+		m.boardsModel, cmd = m.boardsModel.Update(msg)
+	case FocusSprints:
+		break
+	case FocusActiveSprint:
+		break
+	}
+
+	if cmd != nil {
+		return m, cmd
+	}
 
 	if m.taskDetailsModel.Visible() {
 		m.taskDetailsModel, cmd = m.taskDetailsModel.Update(msg)
@@ -22,12 +38,17 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.taskDetailsModel, cmd = m.taskDetailsModel.Update(msg)
 		return m, cmd
 
+	case projects.ProjectSelectedMsg:
+		m.boardsModel.SetProjectID(msg.Project.ID)
+		m.focusedState = FocusBoards
+		return m, m.boardsModel.Init()
+
 	case fetchSprintResponse:
 		m.err = msg.err
 
 		if msg.err != nil {
 			logger.Error("error fetching sprint data", logger.StringAttr("error", msg.err.Error()))
-			m.loading = false
+			// m.loading = false
 			return m, nil
 		}
 		m.Sprint = msg.sprint
@@ -43,7 +64,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			tasksByStatus = make(map[models.TaskStatus][]models.DeveloperTask)
 		}
 		m.tasksboardModel.UpdateTasks(tasksByStatus)
-		m.loading = false
+		// m.loading = false
 		return m, nil
 
 	case tasksboard.TaskSelectedMsg:
@@ -65,10 +86,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 
 		case "r":
-			if m.loading {
-				return m, nil
-			}
-			m.loading = true
+			// if m.loading {
+			// 	return m, nil
+			// }
+			// m.loading = true
 			return m, fetchSprintCmd(1)
 
 		case "tab":

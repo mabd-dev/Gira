@@ -19,9 +19,18 @@ var headerBoxStyle = lipgloss.NewStyle().
 	})
 
 func (m model) View() string {
-	if m.loading {
-		return "Fetching sprint data ..."
+
+	switch m.focusedState {
+	case FocusProjects:
+		return m.projectsModel.View()
+	case FocusBoards:
+		return m.boardsModel.View()
+	case FocusSprints:
+		break
+	case FocusActiveSprint:
+		break
 	}
+
 	if m.err != nil {
 		return renderErrorFetching(m)
 	}
