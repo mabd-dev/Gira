@@ -4,6 +4,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/mabd-dev/gira/internal/logger"
 	"github.com/mabd-dev/gira/models"
+	"github.com/mabd-dev/gira/ui/boards"
 	"github.com/mabd-dev/gira/ui/projects"
 	"github.com/mabd-dev/gira/ui/tasksboard"
 )
@@ -20,7 +21,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case FocusSprints:
 		break
 	case FocusActiveSprint:
-		break
+		m.sprintModel, cmd = m.sprintModel.Update(msg)
 	}
 
 	if cmd != nil {
@@ -42,6 +43,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.boardsModel.SetProjectID(msg.Project.ID)
 		m.pushFocus(FocusBoards)
 		return m, m.boardsModel.Init()
+
+	case boards.BoardSelectedMsg:
+		m.sprintModel.SetBoardID(msg.Board.ID)
+		m.pushFocus(FocusActiveSprint)
+		return m, m.sprintModel.Init()
 
 	case fetchSprintResponse:
 		m.err = msg.err

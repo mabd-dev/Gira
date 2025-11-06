@@ -1,4 +1,4 @@
-// Package tassboard is reponsible for displaying tasks per developer
+// Package tasksboard is reponsible for displaying tasks per developer
 package tasksboard
 
 import (

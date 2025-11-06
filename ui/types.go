@@ -5,6 +5,7 @@ import (
 	"github.com/mabd-dev/gira/models"
 	"github.com/mabd-dev/gira/ui/boards"
 	"github.com/mabd-dev/gira/ui/projects"
+	"github.com/mabd-dev/gira/ui/sprint"
 	"github.com/mabd-dev/gira/ui/taskdetails"
 	"github.com/mabd-dev/gira/ui/tasksboard"
 )
@@ -22,6 +23,7 @@ type model struct {
 
 	projectsModel    projects.Model
 	boardsModel      boards.Model
+	sprintModel      sprint.Model
 	tasksboardModel  tasksboard.Model
 	taskDetailsModel taskdetails.Model
 }

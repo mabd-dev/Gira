@@ -28,7 +28,7 @@ func (m model) View() string {
 	case FocusSprints:
 		break
 	case FocusActiveSprint:
-		break
+		return m.sprintModel.View()
 	}
 
 	if m.err != nil {
