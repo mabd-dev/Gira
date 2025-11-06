@@ -2,9 +2,13 @@ package sprint
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/mabd-dev/gira/internal/theme"
+	"github.com/mabd-dev/gira/internal/ui/common"
+	"github.com/mabd-dev/gira/internal/ui/sprint/taskdetails"
+	"github.com/mabd-dev/gira/internal/ui/sprint/tasksboard"
 	"github.com/mabd-dev/gira/models"
 )
 
@@ -85,14 +89,11 @@ func header(sprint models.Sprint, theme theme.Theme) string {
 }
 
 func footer(m Model) string {
-	return ""
-
-	// TODO: fix this later
-	// if m.taskDetailsModel.Visible() {
-	// 	return renderKeybindings(taskdetails.Keybindings, m.theme)
-	// } else {
-	// 	return renderKeybindings(tasksboard.Keybindings, m.theme)
-	// }
+	if m.taskDetailsModel.Visible() {
+		return renderKeybindings(taskdetails.Keybindings, m.theme)
+	} else {
+		return renderKeybindings(tasksboard.Keybindings, m.theme)
+	}
 }
 
 func developersTabs(m Model) string {
@@ -111,4 +112,25 @@ func developersTabs(m Model) string {
 	}
 
 	return lipgloss.JoinHorizontal(lipgloss.Left, devs...)
+}
+
+func renderKeybindings(
+	keybindings []common.Keybinding,
+	theme theme.Theme,
+) string {
+	kbStyle := theme.Styles.Base.Foreground(theme.Colors.Foreground)
+	mutedStyle := theme.Styles.Muted
+
+	var sb strings.Builder
+	for i, kb := range keybindings {
+		sb.WriteString(mutedStyle.Render(kb.ShortDesc))
+		sb.WriteString(mutedStyle.Render(": "))
+		sb.WriteString(kbStyle.Render(kb.Key))
+
+		if i < len(keybindings)-1 {
+			sb.WriteString(mutedStyle.Render(" | "))
+		}
+	}
+
+	return theme.Styles.Muted.Render(sb.String())
 }

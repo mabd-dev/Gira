@@ -31,7 +31,7 @@ func (m *Model) View() string {
 
 		for _, task := range tasks {
 			isSelected := m.selectedTaskIndex == taskIndex
-			taskStr := renderTask(task, isSelected, m.theme)
+			taskStr := m.renderTask(task, isSelected)
 			body = lipgloss.JoinVertical(lipgloss.Left, body, taskStr)
 
 			taskIndex++
@@ -53,16 +53,15 @@ func hasAnyTask(tasksByStatus map[models.TaskStatus][]models.DeveloperTask) bool
 	return false
 }
 
-func renderTask(
+func (m Model) renderTask(
 	task models.DeveloperTask,
 	isSelected bool,
-	theme theme.Theme,
 ) string {
 	var style lipgloss.Style
 	if isSelected {
-		style = theme.Styles.Base.Foreground(theme.Colors.Foreground).Bold(true)
+		style = m.theme.Styles.Base.Foreground(m.theme.Colors.Foreground).Bold(true)
 	} else {
-		style = theme.Styles.Base
+		style = m.theme.Styles.Base
 	}
 
 	indicator := "  "
@@ -81,7 +80,7 @@ func renderTask(
 		taskSummaryStr = style.Render(trimmedTaskSummary)
 	}
 
-	metadata := renderTaskMetaData(task, theme)
+	//metadata := renderTaskMetaData(task, m.theme)
 
 	return lipgloss.JoinVertical(
 		lipgloss.Top,
@@ -91,7 +90,7 @@ func renderTask(
 			storyPointsStr,
 			taskSummaryStr,
 		),
-		metadata,
+		//metadata,
 	)
 }
 
