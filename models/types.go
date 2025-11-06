@@ -1,9 +1,15 @@
 package models
 
 type Project struct {
-	ID             string `json:"id"`
-	Name           string `json:"name"`
-	ProjectTypeKey string `json:"projectTypeKey"`
+	ID             string
+	Name           string
+	ProjectTypeKey string
+}
+
+type Board struct {
+	ID        int
+	Name      string
+	IsPrivate bool
 }
 
 type Sprint struct {

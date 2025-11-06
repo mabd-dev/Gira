@@ -26,6 +26,23 @@ func FormatProject(
 	return projects, nil
 }
 
+func FormatBoards(
+	boardsApiResponse api.BoardsResponse,
+) ([]Board, error) {
+	boards := make([]Board, len(boardsApiResponse.Boards))
+
+	for i, p := range boardsApiResponse.Boards {
+		board := Board{
+			ID:        p.ID,
+			Name:      p.Name,
+			IsPrivate: p.IsPrivate,
+		}
+		boards[i] = board
+	}
+
+	return boards, nil
+}
+
 func FormatSprint(
 	sprintIssuesResponse api.SprintIssuesResponse,
 ) (Sprint, error) {
