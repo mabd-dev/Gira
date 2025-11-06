@@ -109,7 +109,7 @@ func renderTaskMetaData(
 	versions := ""
 
 	if len(task.Components) > 0 {
-		components = "    components: [" + strings.Join(task.Components, ",") + "]"
+		components = "    comp: [" + strings.Join(task.Components, ",") + "]"
 	}
 
 	if len(task.FixVersions) > 0 {

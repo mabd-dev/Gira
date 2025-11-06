@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/mabd-dev/gira/internal/logger"
 	"github.com/mabd-dev/gira/models"
 )
 
@@ -16,17 +15,18 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "enter":
-			status, taskIndex, err := findSelectedTask(m.tasksByStatus, m.selectedTaskIndex)
-			if err != nil {
-				logger.Debug(err.Error())
-				return m, nil
-			}
-			return m, func() tea.Msg {
-				return TaskSelectedMsg{
-					Status:    status,
-					TaskIndex: taskIndex,
-				}
-			}
+			// status, taskIndex, err := findSelectedTask(m.tasksByStatus, m.selectedTaskIndex)
+			// if err != nil {
+			// 	logger.Debug(err.Error())
+			// 	return m, nil
+			// }
+			return m, nil
+			// return m, func() tea.Msg {
+			// 	return TaskSelectedMsg{
+			// 		Status:    status,
+			// 		TaskIndex: taskIndex,
+			// 	}
+			// }
 		case "j", "down": //move one item down
 			if m.totalTasksCount > 0 {
 				m.selectedTaskIndex = (m.selectedTaskIndex + 1) % m.totalTasksCount

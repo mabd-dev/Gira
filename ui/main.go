@@ -9,8 +9,6 @@ import (
 	"github.com/mabd-dev/gira/ui/boards"
 	"github.com/mabd-dev/gira/ui/projects"
 	"github.com/mabd-dev/gira/ui/sprint"
-	"github.com/mabd-dev/gira/ui/taskdetails"
-	"github.com/mabd-dev/gira/ui/tasksboard"
 )
 
 func Render() error {
@@ -25,13 +23,11 @@ func Render() error {
 	}
 
 	m := model{
-		theme:            theme,
-		focusStack:       []FocusState{FocusProjects},
-		projectsModel:    projects.New(theme),
-		sprintModel:      sprint.New(theme),
-		boardsModel:      boards.New(theme),
-		tasksboardModel:  tasksboard.New(theme),
-		taskDetailsModel: taskdetails.New(theme),
+		theme:         theme,
+		focusStack:    []FocusState{FocusProjects},
+		projectsModel: projects.New(theme),
+		sprintModel:   sprint.New(theme),
+		boardsModel:   boards.New(theme),
 	}
 
 	p := tea.NewProgram(m, tea.WithOutput(os.Stdout), tea.WithAltScreen())
