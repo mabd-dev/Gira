@@ -3,8 +3,9 @@ package api
 type EmptyResponse struct{}
 
 type Project struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID             string `json:"id"`
+	Name           string `json:"name"`
+	ProjectTypeKey string `json:"projectTypeKey"`
 }
 
 type ProjectResponse struct {

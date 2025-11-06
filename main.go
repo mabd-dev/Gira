@@ -6,7 +6,6 @@ import (
 	"github.com/mabd-dev/gira/api"
 	"github.com/mabd-dev/gira/config"
 	"github.com/mabd-dev/gira/internal/logger"
-	"github.com/mabd-dev/gira/ui"
 )
 
 func main() {
@@ -16,7 +15,7 @@ func main() {
 		return
 	}
 
-	_, err = api.NewClient(
+	client, err := api.NewClient(
 		cred.Email,
 		cred.Secret,
 		cred.Domain,
@@ -35,7 +34,8 @@ func main() {
 	// 	fmt.Println(project)
 	// }
 	//
-	// getBoardsResponse, err := client.GetBoards("10313")
+	// softwareTeamProjectID := "10313"
+	// getBoardsResponse, err := client.GetBoards(softwareTeamProjectID)
 	// if err != nil {
 	// 	fmt.Printf("error getting boards, err=%s", err.Error())
 	// 	return
@@ -45,7 +45,8 @@ func main() {
 	// 	fmt.Println(board)
 	// }
 
-	// getSprintsResponse, err := client.GetSprints("54")
+	softwareSprintBoardID := "54"
+	// getSprintsResponse, err := client.GetSprints(softwareSprintBoardID)
 	// if err != nil {
 	// 	fmt.Printf("error getting sprints, err=%s", err.Error())
 	// 	return
@@ -54,14 +55,13 @@ func main() {
 	// for _, sprint := range getSprintsResponse.Sprints {
 	// 	fmt.Println(sprint)
 	// }
-	//
 
-	// activeSprint, err := client.GetActiveSprint("54")
-	// if err != nil {
-	// 	fmt.Printf("error getting active sprint, err=%s", err.Error())
-	// 	return
-	// }
-	// fmt.Printf("active sprint: %v\n", activeSprint)
+	activeSprint, err := client.GetActiveSprint(softwareSprintBoardID)
+	if err != nil {
+		fmt.Printf("error getting active sprint, err=%s", err.Error())
+		return
+	}
+	fmt.Printf("active sprint: %v\n", activeSprint)
 
 	// getSprintIssuesResponse, err := client.GetSprintIssues(1853)
 	// if err != nil {
@@ -91,9 +91,9 @@ func main() {
 	// 	return
 	// }
 
-	err = ui.Render()
-	if err != nil {
-		fmt.Printf("failed to render using bubbletea, err=%s", err.Error())
-		return
-	}
+	// err = ui.Render()
+	// if err != nil {
+	// 	fmt.Printf("failed to render using bubbletea, err=%s", err.Error())
+	// 	return
+	// }
 }

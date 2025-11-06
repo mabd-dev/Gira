@@ -19,7 +19,7 @@ func fetchSprintCmd(sprintID int) tea.Cmd {
 	return func() tea.Msg {
 
 		// client := api.GetClient()
-		// getSprintIssuesResponse, err := client.GetSprintIssues(1853)
+		// getSprintIssuesResponse, err := client.GetSprintIssues(sprintID)
 		// if err != nil {
 		// 	return fetchSprintResponse{err: err}
 		// }

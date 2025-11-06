@@ -9,6 +9,23 @@ import (
 	"github.com/mabd-dev/gira/api"
 )
 
+func FormatProject(
+	projectsResponse api.ProjectResponse,
+) ([]Project, error) {
+	projects := make([]Project, len(projectsResponse.Projects))
+
+	for i, p := range projectsResponse.Projects {
+		project := Project{
+			ID:             p.ID,
+			Name:           p.Name,
+			ProjectTypeKey: p.ProjectTypeKey,
+		}
+		projects[i] = project
+	}
+
+	return projects, nil
+}
+
 func FormatSprint(
 	sprintIssuesResponse api.SprintIssuesResponse,
 ) (Sprint, error) {
