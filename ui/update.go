@@ -12,7 +12,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	var cmd tea.Cmd
 
-	switch m.focusedState {
+	switch m.currentFocusState() {
 	case FocusProjects:
 		m.projectsModel, cmd = m.projectsModel.Update(msg)
 	case FocusBoards:
@@ -40,7 +40,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	case projects.ProjectSelectedMsg:
 		m.boardsModel.SetProjectID(msg.Project.ID)
-		m.focusedState = FocusBoards
+		m.pushFocus(FocusBoards)
 		return m, m.boardsModel.Init()
 
 	case fetchSprintResponse:
@@ -83,14 +83,15 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		switch msg.String() {
 		case "q", "esc", "ctrl+c":
-			return m, tea.Quit
+			if len(m.focusStack) == 1 {
+				return m, tea.Quit
+			}
 
-		case "r":
-			// if m.loading {
-			// 	return m, nil
-			// }
-			// m.loading = true
-			return m, fetchSprintCmd(1)
+			m.popFocus()
+			return m, nil
+
+		// case "r":
+		// 	return m, fetchSprintCmd(1)
 
 		case "tab":
 			if len(m.Sprint.Developers) > 0 {

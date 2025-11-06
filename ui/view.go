@@ -20,7 +20,7 @@ var headerBoxStyle = lipgloss.NewStyle().
 
 func (m model) View() string {
 
-	switch m.focusedState {
+	switch m.currentFocusState() {
 	case FocusProjects:
 		return m.projectsModel.View()
 	case FocusBoards:

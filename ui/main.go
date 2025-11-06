@@ -25,7 +25,7 @@ func Render() error {
 
 	m := model{
 		theme:            theme,
-		focusedState:     FocusProjects,
+		focusStack:       []FocusState{FocusProjects},
 		projectsModel:    projects.New(theme),
 		boardsModel:      boards.New(theme),
 		tasksboardModel:  tasksboard.New(theme),

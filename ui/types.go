@@ -9,15 +9,6 @@ import (
 	"github.com/mabd-dev/gira/ui/tasksboard"
 )
 
-type FocusState int
-
-const (
-	FocusProjects FocusState = iota
-	FocusBoards
-	FocusSprints
-	FocusActiveSprint
-)
-
 type model struct {
 	theme  theme.Theme
 	width  int
@@ -26,7 +17,8 @@ type model struct {
 
 	Sprint           models.Sprint
 	SelectedDevIndex int
-	focusedState     FocusState
+
+	focusStack []FocusState
 
 	projectsModel    projects.Model
 	boardsModel      boards.Model
