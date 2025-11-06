@@ -4,27 +4,19 @@ import (
 	"fmt"
 
 	"github.com/mabd-dev/gira/api"
+	"github.com/mabd-dev/gira/config"
 	"github.com/mabd-dev/gira/internal/logger"
 	"github.com/mabd-dev/gira/ui"
 )
 
 func main() {
-	// cred, err := config.Load()
-	// if err != nil {
-	// 	fmt.Println(err.Error())
-	// 	return
+
+	// if err := createMockAPIClient(); err != nil {
+	// 	panic(err)
 	// }
 
-	_, err := api.NewMockClient()
-
-	// _, err = api.NewClient(
-	// 	cred.Email,
-	// 	cred.Secret,
-	// 	cred.Domain,
-	// )
-	if err != nil {
-		fmt.Printf("error creating new client, err=%s", err.Error())
-		return
+	if err := createRealApiClient(); err != nil {
+		panic(err)
 	}
 
 	// getProjectsResponse, err := client.GetProjects()
@@ -93,9 +85,35 @@ func main() {
 	// 	return
 	// }
 
-	err = ui.Render()
-	if err != nil {
+	if err := ui.Render(); err != nil {
 		fmt.Printf("failed to render using bubbletea, err=%s", err.Error())
 		return
 	}
+}
+
+func createMockAPIClient() error {
+	_, err := api.NewMockClient()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	return err
+}
+
+func createRealApiClient() error {
+	cred, err := config.Load()
+	if err != nil {
+		fmt.Println(err.Error())
+		return err
+	}
+
+	_, err = api.NewClient(
+		cred.Email,
+		cred.Secret,
+		cred.Domain,
+	)
+	if err != nil {
+		fmt.Printf("error creating new client, err=%s", err.Error())
+		return err
+	}
+	return nil
 }

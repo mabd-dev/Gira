@@ -18,6 +18,8 @@ func New(t theme.Theme) Model {
 }
 
 func (m *Model) Init() tea.Cmd {
+	m.loading = true
+	m.boards = []models.Board{}
 	return fetchBoardsCmd(m.projectID)
 }
 
