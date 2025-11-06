@@ -6,6 +6,7 @@ import (
 	"github.com/mabd-dev/gira/api"
 	"github.com/mabd-dev/gira/config"
 	"github.com/mabd-dev/gira/internal/logger"
+	"github.com/mabd-dev/gira/ui"
 )
 
 func main() {
@@ -15,7 +16,7 @@ func main() {
 		return
 	}
 
-	client, err := api.NewClient(
+	_, err = api.NewClient(
 		cred.Email,
 		cred.Secret,
 		cred.Domain,
@@ -45,7 +46,7 @@ func main() {
 	// 	fmt.Println(board)
 	// }
 
-	softwareSprintBoardID := "54"
+	// softwareSprintBoardID := "54"
 	// getSprintsResponse, err := client.GetSprints(softwareSprintBoardID)
 	// if err != nil {
 	// 	fmt.Printf("error getting sprints, err=%s", err.Error())
@@ -56,12 +57,12 @@ func main() {
 	// 	fmt.Println(sprint)
 	// }
 
-	activeSprint, err := client.GetActiveSprint(softwareSprintBoardID)
-	if err != nil {
-		fmt.Printf("error getting active sprint, err=%s", err.Error())
-		return
-	}
-	fmt.Printf("active sprint: %v\n", activeSprint)
+	// activeSprint, err := client.GetActiveSprint(softwareSprintBoardID)
+	// if err != nil {
+	// 	fmt.Printf("error getting active sprint, err=%s", err.Error())
+	// 	return
+	// }
+	// fmt.Printf("active sprint: %v\n", activeSprint)
 
 	// getSprintIssuesResponse, err := client.GetSprintIssues(1853)
 	// if err != nil {
@@ -91,9 +92,9 @@ func main() {
 	// 	return
 	// }
 
-	// err = ui.Render()
-	// if err != nil {
-	// 	fmt.Printf("failed to render using bubbletea, err=%s", err.Error())
-	// 	return
-	// }
+	err = ui.Render()
+	if err != nil {
+		fmt.Printf("failed to render using bubbletea, err=%s", err.Error())
+		return
+	}
 }

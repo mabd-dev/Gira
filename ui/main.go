@@ -6,6 +6,7 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/mabd-dev/gira/internal/theme"
+	"github.com/mabd-dev/gira/ui/projects"
 	"github.com/mabd-dev/gira/ui/taskdetails"
 	"github.com/mabd-dev/gira/ui/tasksboard"
 )
@@ -21,6 +22,7 @@ func Render() error {
 		Styles: theme.CreateStyles(colors),
 	}
 
+	projects := projects.New(theme)
 	tasksBoard := tasksboard.New(theme)
 	taskDetails := taskdetails.New(theme)
 
@@ -28,6 +30,7 @@ func Render() error {
 		theme:   theme,
 		loading: true,
 		//Sprint:      sprint,
+		projects:    projects,
 		tasksboard:  tasksBoard,
 		taskDetails: taskDetails,
 	}
@@ -39,5 +42,6 @@ func Render() error {
 }
 
 func (m model) Init() tea.Cmd {
-	return fetchSprintCmd(1122)
+	return m.projects.Init()
+	//return fetchSprintCmd(1122)
 }
