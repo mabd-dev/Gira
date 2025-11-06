@@ -69,7 +69,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				return m, nil
 			}
 			m.loading = true
-			return m, fetchSprint{sprintID: 1}.Cmd()
+			return m, fetchSprintCmd(1)
 
 		case "tab":
 			if len(m.Sprint.Developers) > 0 {

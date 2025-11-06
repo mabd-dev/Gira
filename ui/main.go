@@ -39,5 +39,5 @@ func Render() error {
 }
 
 func (m model) Init() tea.Cmd {
-	return fetchSprint{sprintID: 1122}.Cmd()
+	return fetchSprintCmd(1122)
 }
