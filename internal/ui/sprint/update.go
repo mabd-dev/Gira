@@ -2,6 +2,7 @@ package sprint
 
 import (
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/mabd-dev/gira/internal/ui/common"
 	"github.com/mabd-dev/gira/internal/ui/sprint/tasksboard"
 	"github.com/mabd-dev/gira/models"
 )
@@ -12,6 +13,9 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 
 	if m.taskDetailsModel.Visible() {
 		m.taskDetailsModel, cmd = m.taskDetailsModel.Update(msg)
+		if cmd == nil {
+			cmd = common.ExitCmd
+		}
 		return m, cmd
 	}
 
@@ -63,6 +67,7 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 			task.Description,
 			task.StoryPoints,
 		)
+		return m, common.ExitCmd
 
 	case tea.KeyMsg:
 		switch msg.String() {

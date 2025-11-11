@@ -36,6 +36,7 @@ func formatJiraDescription(description string, theme theme.Theme) string {
 	// Regex patterns for Jira markup
 	h2Pattern := regexp.MustCompile(`^h2\.\s*(.+)$`)
 	boldPattern := regexp.MustCompile(`\*([^*]+)\*`)
+	strikethroughPattern := regexp.MustCompile(`-([^*]+)-`)
 	linkPattern := regexp.MustCompile(`\[([^\|]+)\|([^\]]+)\]`)
 	numberedListPattern := regexp.MustCompile(`^#\s+(.+)$`)
 	bulletListPattern := regexp.MustCompile(`^\*\s+(.+)$`)
@@ -75,7 +76,7 @@ func formatJiraDescription(description string, theme theme.Theme) string {
 		if h2Pattern.MatchString(line) {
 			matches := h2Pattern.FindStringSubmatch(line)
 			if len(matches) > 1 {
-				headerText := formatInlineMarkup(matches[1], boldPattern, linkPattern, theme)
+				headerText := formatInlineMarkup(matches[1], boldPattern, strikethroughPattern, linkPattern, theme)
 				formattedLines = append(formattedLines, h2Style.Render(headerText))
 				continue
 			}
@@ -85,7 +86,7 @@ func formatJiraDescription(description string, theme theme.Theme) string {
 		if numberedListPattern.MatchString(line) {
 			matches := numberedListPattern.FindStringSubmatch(line)
 			if len(matches) > 1 {
-				content := formatInlineMarkup(matches[1], boldPattern, linkPattern, theme)
+				content := formatInlineMarkup(matches[1], boldPattern, strikethroughPattern, linkPattern, theme)
 				formattedLines = append(formattedLines, listItemStyle.Render("• "+content))
 				continue
 			}
@@ -95,14 +96,14 @@ func formatJiraDescription(description string, theme theme.Theme) string {
 		if bulletListPattern.MatchString(line) {
 			matches := bulletListPattern.FindStringSubmatch(line)
 			if len(matches) > 1 {
-				content := formatInlineMarkup(matches[1], boldPattern, linkPattern, theme)
+				content := formatInlineMarkup(matches[1], boldPattern, strikethroughPattern, linkPattern, theme)
 				formattedLines = append(formattedLines, subListItemStyle.Render("◦ "+content))
 				continue
 			}
 		}
 
 		// Handle regular text with inline formatting
-		formatted := formatInlineMarkup(line, boldPattern, linkPattern, theme)
+		formatted := formatInlineMarkup(line, boldPattern, strikethroughPattern, linkPattern, theme)
 		formattedLines = append(formattedLines, normalStyle.Render(formatted))
 	}
 
@@ -115,13 +116,12 @@ func formatJiraDescription(description string, theme theme.Theme) string {
 }
 
 // formatInlineMarkup handles inline formatting like *bold* and [text|url]
-func formatInlineMarkup(text string, boldPattern *regexp.Regexp, linkPattern *regexp.Regexp, theme theme.Theme) string {
+func formatInlineMarkup(text string, boldPattern *regexp.Regexp, strikethroughPattern *regexp.Regexp, linkPattern *regexp.Regexp, theme theme.Theme) string {
 	result := text
 
 	// Handle links first: [text|url] -> "text (url)"
-	linkMatches := linkPattern.FindAllStringSubmatch(text, -1)
-	if len(linkMatches) > 0 {
-		for _, match := range linkMatches {
+	if matches := linkPattern.FindAllStringSubmatch(text, -1); len(matches) > 0 {
+		for _, match := range matches {
 			if len(match) > 2 {
 				fullMatch := match[0] // [text|url]
 				linkText := match[1]  // text
@@ -138,13 +138,24 @@ func formatInlineMarkup(text string, boldPattern *regexp.Regexp, linkPattern *re
 	}
 
 	// Handle bold text: *text*
-	boldMatches := boldPattern.FindAllStringSubmatch(result, -1)
-	if len(boldMatches) > 0 {
-		for _, match := range boldMatches {
+	if matches := boldPattern.FindAllStringSubmatch(result, -1); len(matches) > 0 {
+		for _, match := range matches {
 			if len(match) > 1 {
 				fullMatch := match[0] // *text*
 				boldText := match[1]  // text
 				styledText := theme.Styles.Base.Bold(true).Foreground(theme.Colors.Foreground).Render(boldText)
+				result = strings.Replace(result, fullMatch, styledText, 1)
+			}
+		}
+	}
+
+	// Handle strikethrough text: -text-
+	if matches := strikethroughPattern.FindAllStringSubmatch(result, -1); len(matches) > 0 {
+		for _, match := range matches {
+			if len(match) > 1 {
+				fullMatch := match[0] // -text-
+				boldText := match[1]  // text
+				styledText := theme.Styles.Base.Strikethrough(true).Foreground(theme.Colors.Foreground).Render(boldText)
 				result = strings.Replace(result, fullMatch, styledText, 1)
 			}
 		}
