@@ -11,13 +11,13 @@ import (
 
 func main() {
 
-	if err := createMockAPIClient(); err != nil {
-		panic(err)
-	}
-
-	// if err := createRealApiClient(); err != nil {
+	// if err := createMockAPIClient(); err != nil {
 	// 	panic(err)
 	// }
+
+	if err := createRealApiClient(); err != nil {
+		panic(err)
+	}
 
 	// getProjectsResponse, err := client.GetProjects()
 	// if err != nil {
