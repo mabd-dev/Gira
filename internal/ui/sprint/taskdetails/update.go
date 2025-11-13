@@ -10,7 +10,10 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch msg.String() {
-		case "q", "esc", "ctrl+c":
+		case "ctrl+c":
+			return m, tea.Quit
+
+		case "q", "esc":
 			m.task = nil
 			return m, nil
 		}

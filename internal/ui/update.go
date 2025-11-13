@@ -43,7 +43,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 
 		switch msg.String() {
-		case "q", "esc", "ctrl+c":
+		case "ctrl+c":
+			return m, tea.Quit
+
+		case "q", "esc":
 			if len(m.focusStack) == 1 {
 				return m, tea.Quit
 			}

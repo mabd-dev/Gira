@@ -5,6 +5,7 @@ import (
 	"github.com/mabd-dev/gira/internal/ui/boards"
 	"github.com/mabd-dev/gira/internal/ui/projects"
 	"github.com/mabd-dev/gira/internal/ui/sprint"
+	"github.com/mabd-dev/gira/models"
 )
 
 type model struct {
@@ -18,4 +19,9 @@ type model struct {
 	projectsModel projects.Model
 	boardsModel   boards.Model
 	sprintModel   sprint.Model
+}
+
+type fetchSprintResponse struct {
+	sprint models.Sprint
+	err    error
 }

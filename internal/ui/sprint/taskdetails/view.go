@@ -7,7 +7,8 @@ import (
 )
 
 func (m Model) View() string {
-	return m.viewport.View()
+	return m.generateContent()
+	//return m.viewport.View()
 }
 
 func (m Model) generateContent() string {
