@@ -44,7 +44,7 @@ func main() {
 }
 
 func createMockAPIClient() error {
-	_, err := api.NewMockClient()
+	_, err := api.NewMockClient("")
 	if err != nil {
 		fmt.Println(err.Error())
 	}

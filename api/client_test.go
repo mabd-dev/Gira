@@ -1,28 +1,11 @@
 package api
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
-
-// setupTestMockFiles creates mock JSON files in testdata for testing
-func setupTestMockFiles(t *testing.T) func() {
-	// Save original working directory
-	originalWd, err := os.Getwd()
-	require.NoError(t, err)
-
-	// Change to parent directory so MockClient can find samples/
-	err = os.Chdir("..")
-	require.NoError(t, err)
-
-	// Return cleanup function
-	return func() {
-		os.Chdir(originalWd)
-	}
-}
 
 func TestNewClient(t *testing.T) {
 	username := "test@example.com"
@@ -38,7 +21,7 @@ func TestNewClient(t *testing.T) {
 }
 
 func TestNewMockClient(t *testing.T) {
-	client, err := NewMockClient()
+	client, err := NewMockClient("../")
 	require.NoError(t, err)
 	require.NotNil(t, client)
 
@@ -50,10 +33,7 @@ func TestNewMockClient(t *testing.T) {
 }
 
 func TestMockClient_GetProjects(t *testing.T) {
-	cleanup := setupTestMockFiles(t)
-	defer cleanup()
-
-	mockClient := MockClient{}
+	mockClient := MockClient{BasePath: "../"}
 
 	projects, err := mockClient.GetProjects()
 	require.NoError(t, err)
@@ -65,10 +45,7 @@ func TestMockClient_GetProjects(t *testing.T) {
 }
 
 func TestMockClient_GetBoards(t *testing.T) {
-	cleanup := setupTestMockFiles(t)
-	defer cleanup()
-
-	mockClient := MockClient{}
+	mockClient := MockClient{BasePath: "../"}
 
 	boards, err := mockClient.GetBoards("10001")
 	require.NoError(t, err)
@@ -83,10 +60,7 @@ func TestMockClient_GetBoards(t *testing.T) {
 }
 
 func TestMockClient_GetSprints(t *testing.T) {
-	cleanup := setupTestMockFiles(t)
-	defer cleanup()
-
-	mockClient := MockClient{}
+	mockClient := MockClient{BasePath: "../"}
 
 	sprints, err := mockClient.GetSprints("1")
 	require.NoError(t, err)
@@ -99,10 +73,7 @@ func TestMockClient_GetSprints(t *testing.T) {
 
 func TestMockClient_GetActiveSprint(t *testing.T) {
 	t.Run("Returns first sprint as active", func(t *testing.T) {
-		cleanup := setupTestMockFiles(t)
-		defer cleanup()
-
-		mockClient := MockClient{}
+		mockClient := MockClient{BasePath: "../"}
 
 		sprint, err := mockClient.GetActiveSprint("1")
 		require.NoError(t, err)
@@ -113,10 +84,7 @@ func TestMockClient_GetActiveSprint(t *testing.T) {
 }
 
 func TestMockClient_GetSprintIssues(t *testing.T) {
-	cleanup := setupTestMockFiles(t)
-	defer cleanup()
-
-	mockClient := MockClient{}
+	mockClient := MockClient{BasePath: "../"}
 
 	issues, err := mockClient.GetSprintIssues(1)
 	require.NoError(t, err)
@@ -143,7 +111,7 @@ func TestMockClient_GetSprintIssues(t *testing.T) {
 
 func TestGetClient(t *testing.T) {
 	// Set up a mock client
-	_, err := NewMockClient()
+	_, err := NewMockClient("../")
 	require.NoError(t, err)
 
 	// Test GetClient returns the set client

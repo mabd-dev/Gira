@@ -4,27 +4,36 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
-type MockClient struct{}
+type MockClient struct {
+	BasePath string
+}
+
+// api/testdata/mockApiResponses/
 
 func (c MockClient) GetProjects() (ProjectResponse, error) {
-	body, err := readMockFile[ProjectResponse]("samples/mockApiResponses/projects.json")
+	path := filepath.Join(c.BasePath, "api/testdata/mockApiResponses/projects.json")
+	body, err := readMockFile[ProjectResponse](path)
 	return *body, err
 }
 
 func (c MockClient) GetBoards(projectID string) (BoardsResponse, error) {
-	body, err := readMockFile[BoardsResponse]("samples/mockApiResponses/boards.json")
+	path := filepath.Join(c.BasePath, "api/testdata/mockApiResponses/boards.json")
+	body, err := readMockFile[BoardsResponse](path)
 	return *body, err
 }
 
 func (c MockClient) GetSprints(boardID string) (SprintsResponse, error) {
-	body, err := readMockFile[SprintsResponse]("samples/mockApiResponses/sprints.json")
+	path := filepath.Join(c.BasePath, "api/testdata/mockApiResponses/sprints.json")
+	body, err := readMockFile[SprintsResponse](path)
 	return *body, err
 }
 
 func (c MockClient) GetActiveSprint(boardID string) (Sprint, error) {
-	body, err := readMockFile[SprintsResponse]("samples/mockApiResponses/sprints.json")
+	path := filepath.Join(c.BasePath, "api/testdata/mockApiResponses/sprints.json")
+	body, err := readMockFile[SprintsResponse](path)
 	if err != nil {
 		return Sprint{}, err
 	}
@@ -37,7 +46,8 @@ func (c MockClient) GetActiveSprint(boardID string) (Sprint, error) {
 }
 
 func (c MockClient) GetSprintIssues(sprintID int) (SprintIssuesResponse, error) {
-	body, err := readMockFile[SprintIssuesResponse]("samples/mockApiResponses/sprintIssues.json")
+	path := filepath.Join(c.BasePath, "api/testdata/mockApiResponses/sprintIssues.json")
+	body, err := readMockFile[SprintIssuesResponse](path)
 	return *body, err
 }
 

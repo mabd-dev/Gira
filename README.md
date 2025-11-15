@@ -112,14 +112,15 @@ The TUI provides an interactive interface for navigating your Jira workspace:
 
 ```
 gira/
-├── api/                    # Jira API client implementation
+├── api/                   # Jira API client implementation
+│   ├── testdata/          # mock data for testing
 │   ├── client.go          # Main client interface
 │   ├── clientReal.go      # Real API client
 │   ├── clientMock.go      # Mock client for testing
 │   └── types.go           # API response types
-├── config/                 # Configuration management
+├── config/                # Configuration management
 │   └── credentials.go     # Environment variable loading
-├── models/                 # Domain models
+├── models/                # Domain models
 │   ├── types.go           # Core domain types
 │   ├── formatter.go       # Data formatters
 │   └── taskStatus.go      # Task status definitions
@@ -132,8 +133,6 @@ gira/
 │       └── sprint/        # Sprint views
 │           ├── tasksboard/    # Task board view
 │           └── taskdetails/   # Task details view
-├── samples/               # Mock data for testing
-│   └── mockApiResponses/
 └── main.go                # Application entry point
 ```
 
