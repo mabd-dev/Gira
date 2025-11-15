@@ -38,7 +38,7 @@ func setupTestConfig(t *testing.T, content string) (string, func()) {
 		os.RemoveAll(tmpDir)
 	}
 
-	return configPath, cleanup
+	return tmpDir, cleanup
 }
 
 func TestLoad_ValidConfig(t *testing.T) {
@@ -50,10 +50,10 @@ email = "test@example.com"
 secret = "test-secret"
 domain = "test.atlassian.net"
 `
-	_, cleanup := setupTestConfig(t, content)
+	tmpDir, cleanup := setupTestConfig(t, content)
 	defer cleanup()
 
-	config, err := Load()
+	config, err := Load(tmpDir)
 	if err != nil {
 		t.Fatalf("Expected no error, got: %v", err)
 	}
@@ -87,10 +87,10 @@ email = "test@example.com"
 secret = "test-secret"
 domain = "test.atlassian.net"
 `
-	_, cleanup := setupTestConfig(t, content)
+	tmpDir, cleanup := setupTestConfig(t, content)
 	defer cleanup()
 
-	config, err := Load()
+	config, err := Load(tmpDir)
 	if err != nil {
 		t.Fatalf("Expected no error, got: %v", err)
 	}
@@ -111,12 +111,8 @@ func TestLoad_AutoCreateConfigFile(t *testing.T) {
 	}
 	defer os.RemoveAll(tmpDir)
 
-	originalHome := os.Getenv("HOME")
-	os.Setenv("HOME", tmpDir)
-	defer os.Setenv("HOME", originalHome)
-
 	// First load should auto-create the config file
-	_, err = Load()
+	_, err = Load(tmpDir)
 	if err == nil {
 		t.Error("Expected error asking user to edit config, got nil")
 	}
@@ -164,6 +160,7 @@ func TestLoad_AutoCreateConfigFile(t *testing.T) {
 }
 
 // Helper function to check if string contains substring
+
 func containsString(s, substr string) bool {
 	return len(s) >= len(substr) && (s == substr || len(s) > len(substr) && stringContains(s, substr))
 }
@@ -179,14 +176,16 @@ func stringContains(s, substr string) bool {
 
 func TestLoad_InvalidTOML(t *testing.T) {
 	content := `[general]
+
 debug = "this should be a boolean not a string
 [credentials
 email = "test@example.com"
 `
-	_, cleanup := setupTestConfig(t, content)
+
+	tmpDir, cleanup := setupTestConfig(t, content)
 	defer cleanup()
 
-	_, err := Load()
+	_, err := Load(tmpDir)
 	if err == nil {
 		t.Error("Expected error for invalid TOML, got nil")
 	}
@@ -194,16 +193,18 @@ email = "test@example.com"
 
 func TestLoad_MissingEmail(t *testing.T) {
 	content := `[general]
+
 debug = true
 
 [credentials]
 secret = "test-secret"
 domain = "test.atlassian.net"
 `
-	_, cleanup := setupTestConfig(t, content)
+
+	tmpDir, cleanup := setupTestConfig(t, content)
 	defer cleanup()
 
-	_, err := Load()
+	_, err := Load(tmpDir)
 	if err == nil {
 		t.Error("Expected error for missing email, got nil")
 	}
@@ -214,6 +215,7 @@ domain = "test.atlassian.net"
 
 func TestLoad_EmptyEmail(t *testing.T) {
 	content := `[general]
+
 debug = true
 
 [credentials]
@@ -221,10 +223,11 @@ email = "   "
 secret = "test-secret"
 domain = "test.atlassian.net"
 `
-	_, cleanup := setupTestConfig(t, content)
+
+	tmpDir, cleanup := setupTestConfig(t, content)
 	defer cleanup()
 
-	_, err := Load()
+	_, err := Load(tmpDir)
 	if err == nil {
 		t.Error("Expected error for empty email, got nil")
 	}
@@ -235,16 +238,18 @@ domain = "test.atlassian.net"
 
 func TestLoad_MissingSecret(t *testing.T) {
 	content := `[general]
+
 debug = true
 
 [credentials]
 email = "test@example.com"
 domain = "test.atlassian.net"
 `
-	_, cleanup := setupTestConfig(t, content)
+
+	tmpDir, cleanup := setupTestConfig(t, content)
 	defer cleanup()
 
-	_, err := Load()
+	_, err := Load(tmpDir)
 	if err == nil {
 		t.Error("Expected error for missing secret, got nil")
 	}
@@ -255,6 +260,7 @@ domain = "test.atlassian.net"
 
 func TestLoad_EmptySecret(t *testing.T) {
 	content := `[general]
+
 debug = false
 
 [credentials]
@@ -262,10 +268,11 @@ email = "test@example.com"
 secret = ""
 domain = "test.atlassian.net"
 `
-	_, cleanup := setupTestConfig(t, content)
+
+	tmpDir, cleanup := setupTestConfig(t, content)
 	defer cleanup()
 
-	_, err := Load()
+	_, err := Load(tmpDir)
 	if err == nil {
 		t.Error("Expected error for empty secret, got nil")
 	}
@@ -276,16 +283,18 @@ domain = "test.atlassian.net"
 
 func TestLoad_MissingDomain(t *testing.T) {
 	content := `[general]
+
 debug = true
 
 [credentials]
 email = "test@example.com"
 secret = "test-secret"
 `
-	_, cleanup := setupTestConfig(t, content)
+
+	tmpDir, cleanup := setupTestConfig(t, content)
 	defer cleanup()
 
-	_, err := Load()
+	_, err := Load(tmpDir)
 	if err == nil {
 		t.Error("Expected error for missing domain, got nil")
 	}
@@ -303,10 +312,10 @@ email = "test@example.com"
 secret = "test-secret"
 domain = "   "
 `
-	_, cleanup := setupTestConfig(t, content)
+	tmpDir, cleanup := setupTestConfig(t, content)
 	defer cleanup()
 
-	_, err := Load()
+	_, err := Load(tmpDir)
 	if err == nil {
 		t.Error("Expected error for empty domain, got nil")
 	}
@@ -323,11 +332,7 @@ func TestGetConfigPath(t *testing.T) {
 	}
 	defer os.RemoveAll(tmpDir)
 
-	originalHome := os.Getenv("HOME")
-	os.Setenv("HOME", tmpDir)
-	defer os.Setenv("HOME", originalHome)
-
-	path, err := getConfigPath()
+	path, err := getConfigPath(tmpDir)
 	if err != nil {
 		t.Fatalf("Expected no error, got: %v", err)
 	}
@@ -368,7 +373,7 @@ func TestValidateConfig_AllEmpty(t *testing.T) {
 
 func TestCredentialsAlias(t *testing.T) {
 	// Test that Credentials type alias works
-	var cred Credentials
+	var cred CredentialsConfig
 	cred.Email = "test@example.com"
 	cred.Secret = "test-secret"
 	cred.Domain = "test.atlassian.net"
