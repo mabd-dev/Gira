@@ -44,19 +44,21 @@ go build -o gira
 
 ## Configuration
 
-Gira uses a TOML configuration file for authentication with Jira. The configuration file should be located at `~/.config/gira/credentials.toml`.
+Gira uses a TOML configuration file for authentication with Jira. On first run, the configuration file is automatically created at `~/.config/gira/credentials.toml` with secure permissions.
 
-1. Copy the example configuration:
+1. Run the application for the first time to create the config file:
 ```bash
-cp credentials.toml.example ~/.config/gira/credentials.toml
+./gira
 ```
 
-2. Edit the configuration file:
+The application will create `~/.config/gira/credentials.toml` and prompt you to edit it.
+
+2. Edit the configuration file with your Jira credentials:
 ```bash
 nano ~/.config/gira/credentials.toml
 ```
 
-3. Fill in your Jira credentials:
+3. Update the following fields:
 ```toml
 [general]
 debug = false
@@ -65,11 +67,6 @@ debug = false
 email = "your.email@example.com"
 secret = "your_jira_api_token"
 domain = "your_jira_domain"
-```
-
-4. Secure the configuration file:
-```bash
-chmod 600 ~/.config/gira/credentials.toml
 ```
 
 ### Getting Your Jira API Token

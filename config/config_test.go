@@ -103,7 +103,7 @@ domain = "test.atlassian.net"
 	}
 }
 
-func TestLoad_MissingConfigFile(t *testing.T) {
+func TestLoad_AutoCreateConfigFile(t *testing.T) {
 	// Create temp dir but no config file
 	tmpDir, err := os.MkdirTemp("", "gira-config-test-*")
 	if err != nil {
@@ -115,16 +115,66 @@ func TestLoad_MissingConfigFile(t *testing.T) {
 	os.Setenv("HOME", tmpDir)
 	defer os.Setenv("HOME", originalHome)
 
+	// First load should auto-create the config file
 	_, err = Load()
 	if err == nil {
-		t.Error("Expected error for missing config file, got nil")
+		t.Error("Expected error asking user to edit config, got nil")
 	}
-	if err != nil && !os.IsNotExist(err) {
-		// Check if error message mentions config not found
-		if err.Error() == "" || len(err.Error()) == 0 {
-			t.Error("Expected meaningful error message")
+
+	// Check error message tells user to edit the file
+	expectedMsg := "config file created at"
+	if err != nil && !containsString(err.Error(), expectedMsg) {
+		t.Errorf("Expected error message containing '%s', got: %v", expectedMsg, err)
+	}
+
+	// Verify the config file was created
+	configPath := filepath.Join(tmpDir, ".config", "gira", "credentials.toml")
+	if _, err := os.Stat(configPath); os.IsNotExist(err) {
+		t.Error("Expected config file to be created, but it doesn't exist")
+	}
+
+	// Verify directory permissions (0700)
+	configDir := filepath.Join(tmpDir, ".config", "gira")
+	dirInfo, err := os.Stat(configDir)
+	if err != nil {
+		t.Fatalf("Failed to stat config directory: %v", err)
+	}
+	if dirInfo.Mode().Perm() != 0700 {
+		t.Errorf("Expected directory permissions 0700, got %o", dirInfo.Mode().Perm())
+	}
+
+	// Verify file permissions (0600)
+	fileInfo, err := os.Stat(configPath)
+	if err != nil {
+		t.Fatalf("Failed to stat config file: %v", err)
+	}
+	if fileInfo.Mode().Perm() != 0600 {
+		t.Errorf("Expected file permissions 0600, got %o", fileInfo.Mode().Perm())
+	}
+
+	// Verify file contains example data
+	data, err := os.ReadFile(configPath)
+	if err != nil {
+		t.Fatalf("Failed to read config file: %v", err)
+	}
+	content := string(data)
+	if !containsString(content, "[general]") || !containsString(content, "[credentials]") {
+		t.Error("Expected config file to contain example TOML sections")
+	}
+}
+
+// Helper function to check if string contains substring
+func containsString(s, substr string) bool {
+	return len(s) >= len(substr) && (s == substr || len(s) > len(substr) && stringContains(s, substr))
+}
+
+func stringContains(s, substr string) bool {
+	for i := 0; i <= len(s)-len(substr); i++ {
+		if s[i:i+len(substr)] == substr {
+			return true
 		}
 	}
+	return false
 }
 
 func TestLoad_InvalidTOML(t *testing.T) {

@@ -36,17 +36,23 @@ type CredentialsConfig struct {
 type Credentials = CredentialsConfig
 
 // Load reads and parses the configuration file from ~/.config/gira/credentials.toml
+// If the file doesn't exist, it creates it with example values
 func Load() (Config, error) {
 	configPath, err := getConfigPath()
 	if err != nil {
 		return Config{}, fmt.Errorf("failed to get config path: %w", err)
 	}
 
+	// Check if config file exists, if not create it with example values
+	if _, err := os.Stat(configPath); os.IsNotExist(err) {
+		if err := initializeConfig(configPath); err != nil {
+			return Config{}, fmt.Errorf("failed to initialize config: %w", err)
+		}
+		return Config{}, fmt.Errorf("config file created at %s. Please edit it with your Jira credentials", configPath)
+	}
+
 	data, err := os.ReadFile(configPath)
 	if err != nil {
-		if os.IsNotExist(err) {
-			return Config{}, fmt.Errorf("config file not found at %s. Please create it from credentials.toml.example", configPath)
-		}
 		return Config{}, fmt.Errorf("failed to read config file: %w", err)
 	}
 
@@ -64,6 +70,46 @@ func Load() (Config, error) {
 	config.Debug = config.General.Debug
 
 	return config, nil
+}
+
+// initializeConfig creates the config directory and file with example values
+func initializeConfig(configPath string) error {
+	// Create directory with secure permissions (0700 - only owner can access)
+	configDir := filepath.Dir(configPath)
+	if err := os.MkdirAll(configDir, 0700); err != nil {
+		return fmt.Errorf("failed to create config directory: %w", err)
+	}
+
+	// Example configuration content
+	exampleConfig := `# Gira Configuration File
+# This file was automatically created. Please update it with your Jira credentials.
+#
+# Security: This file contains sensitive credentials
+#   - Keep this file private (permissions: 600)
+#   - Never commit this file to version control
+
+[general]
+# Enable debug mode (uses mock API client instead of real Jira API)
+debug = true
+
+[credentials]
+# Your Jira account email
+email = "your.email@example.com"
+
+# Your Jira API token
+# Get it from: https://id.atlassian.com/manage-profile/security/api-tokens
+secret = "your_jira_api_token"
+
+# Your Jira domain (e.g., "yourcompany" if your URL is yourcompany.atlassian.net)
+domain = "your-domain"
+`
+
+	// Write file with secure permissions (0600 - only owner can read/write)
+	if err := os.WriteFile(configPath, []byte(exampleConfig), 0600); err != nil {
+		return fmt.Errorf("failed to write config file: %w", err)
+	}
+
+	return nil
 }
 
 // getConfigPath returns the path to the credentials file
