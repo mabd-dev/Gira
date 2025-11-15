@@ -11,8 +11,6 @@ import (
 	"github.com/pelletier/go-toml/v2"
 )
 
-var service string = "gira"
-
 // Load reads and parses the configuration file from ~/.config/gira/credentials.toml
 // If the file doesn't exist, it creates it with example values
 func Load(basePath string) (Config, error) {
