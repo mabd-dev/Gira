@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/mabd-dev/gira/api"
 	"github.com/mabd-dev/gira/config"
@@ -10,18 +11,26 @@ import (
 )
 
 func main() {
-
-	config, err := config.Load()
+	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		panic(err)
 	}
 
-	if config.Debug {
+	configData, err := config.Load(homeDir)
+	if err != nil {
+		if myError, ok := err.(*config.FirstTimeError); ok {
+			fmt.Println(myError.Message)
+			return
+		}
+		panic(err)
+	}
+
+	if configData.Debug {
 		if err := createMockAPIClient(); err != nil {
 			panic(err)
 		}
 	} else {
-		if err := createRealApiClient(config.Credentials); err != nil {
+		if err := createRealApiClient(configData.Credentials); err != nil {
 			panic(err)
 		}
 	}
@@ -42,7 +51,7 @@ func createMockAPIClient() error {
 	return err
 }
 
-func createRealApiClient(cred config.Credentials) error {
+func createRealApiClient(cred config.CredentialsConfig) error {
 	_, err := api.NewClient(
 		cred.Email,
 		cred.Secret,
