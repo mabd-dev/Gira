@@ -117,6 +117,10 @@ func (c RealClient) GetActiveSprint(boardID string) (Sprint, error) {
 		return Sprint{}, err
 	}
 
+	if len(getSprintsResponse.Sprints) == 0 {
+		return Sprint{}, fmt.Errorf("No active sprint\n")
+	}
+
 	if len(getSprintsResponse.Sprints) > 1 {
 		return Sprint{}, fmt.Errorf("More than one active sprint!\n")
 	}

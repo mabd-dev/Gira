@@ -4,6 +4,10 @@ A blazingly fast, read-only Jira CLI client written in Go. Gira provides a beaut
 
 > **Note**: This is currently a demo project. The application is read-only; users cannot update or edit sprint issues.
 
+
+https://github.com/user-attachments/assets/343b4fde-4831-43e9-b9f4-c47021dfba8f
+
+
 ## Features
 
 - **Fast Performance**: Terminal-based interface that's significantly faster than Jira's web UI
