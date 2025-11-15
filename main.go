@@ -51,7 +51,7 @@ func createMockAPIClient() error {
 	return err
 }
 
-func createRealApiClient(cred config.Credentials) error {
+func createRealApiClient(cred config.CredentialsConfig) error {
 	_, err := api.NewClient(
 		cred.Email,
 		cred.Secret,

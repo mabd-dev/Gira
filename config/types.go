@@ -21,9 +21,6 @@ type CredentialsConfig struct {
 	Domain string `toml:"domain"`
 }
 
-// Credentials is an alias for backward compatibility
-type Credentials = CredentialsConfig
-
 type FirstTimeError struct {
 	Message string
 }
