@@ -13,34 +13,12 @@ import (
 
 var service string = "gira"
 
-// Config represents the application configuration
-type Config struct {
-	Debug       bool              `toml:"-"` // Populated from General.Debug for backward compatibility
-	General     GeneralConfig     `toml:"general"`
-	Credentials CredentialsConfig `toml:"credentials"`
-}
-
-// GeneralConfig holds general application settings
-type GeneralConfig struct {
-	Debug bool `toml:"debug"`
-}
-
-// CredentialsConfig holds user credentials
-type CredentialsConfig struct {
-	Email  string `toml:"email"`
-	Secret string `toml:"secret"`
-	Domain string `toml:"domain"`
-}
-
-// Credentials is an alias for backward compatibility
-type Credentials = CredentialsConfig
-
 // Load reads and parses the configuration file from ~/.config/gira/credentials.toml
 // If the file doesn't exist, it creates it with example values
-func Load() (Config, error) {
-	configPath, err := getConfigPath()
+func Load(basePath string) (Config, error) {
+	configPath, err := getConfigPath(basePath)
 	if err != nil {
-		return Config{}, fmt.Errorf("failed to get config path: %w", err)
+		return Config{}, fmt.Errorf("Failed to get config path: %w", err)
 	}
 
 	// Check if config file exists, if not create it with example values
@@ -48,7 +26,10 @@ func Load() (Config, error) {
 		if err := initializeConfig(configPath); err != nil {
 			return Config{}, fmt.Errorf("failed to initialize config: %w", err)
 		}
-		return Config{}, fmt.Errorf("config file created at %s. Please edit it with your Jira credentials", configPath)
+		firstTimeError := FirstTimeError{
+			Message: fmt.Sprintf("config file created at %s. Please edit it with your Jira credentials", configPath),
+		}
+		return Config{}, &firstTimeError
 	}
 
 	data, err := os.ReadFile(configPath)
@@ -112,14 +93,9 @@ domain = "your-domain"
 	return nil
 }
 
-// getConfigPath returns the path to the credentials file
-func getConfigPath() (string, error) {
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		return "", fmt.Errorf("failed to get user home directory: %w", err)
-	}
-
-	return filepath.Join(homeDir, ".config", "gira", "credentials.toml"), nil
+// GetConfigPath returns the path to the credentials file
+func getConfigPath(basePath string) (string, error) {
+	return filepath.Join(basePath, ".config", "gira", "credentials.toml"), nil
 }
 
 // validateConfig checks that all required fields are set
