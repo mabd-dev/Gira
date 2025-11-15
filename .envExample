@@ -1,0 +1,5 @@
+debug=1
+
+email=someone@something.com
+secret=secret-goes-here
+domain=domain
