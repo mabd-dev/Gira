@@ -28,7 +28,7 @@ func (m Model) View() string {
 
 	if m.err != nil {
 		errorStyle := m.theme.Styles.Base.Foreground(m.theme.Colors.Error)
-		return errorStyle.Render(fmt.Sprintf("Failed to load projects: %s", m.err.Error()))
+		return errorStyle.Render(fmt.Sprintf("Failed to load sprint: %s", m.err.Error()))
 	}
 
 	header := header(m.sprint, m.theme)

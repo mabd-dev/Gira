@@ -29,8 +29,8 @@ func main() {
 	logger.Init(true, "/.config/gira/logs/")
 
 	if err := ui.Render(); err != nil {
-		fmt.Printf("failed to render using bubbletea, err=%s", err.Error())
-		return
+		// fmt.Printf("failed to render using bubbletea, err=%s", err.Error())
+		panic(err)
 	}
 }
 
