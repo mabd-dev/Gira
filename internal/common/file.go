@@ -8,7 +8,7 @@ import (
 )
 
 func SaveMockApiResponse(filename string, data []byte) error {
-	return SaveToJsonFile("samples/mockApiResponses/"+filename, data)
+	return SaveToJsonFile("api/testdata/mockApiResponses/"+filename, data)
 }
 
 func SaveToJsonFile(filename string, data []byte) error {

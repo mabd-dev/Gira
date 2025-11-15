@@ -32,8 +32,11 @@ func NewClient(
 	return &client, nil
 }
 
-func NewMockClient() (*Client, error) {
-	client = MockClient{}
+func NewMockClient(basePath string) (*Client, error) {
+	if basePath == "" {
+		basePath = "."
+	}
+	client = MockClient{BasePath: basePath}
 	return &client, nil
 }
 

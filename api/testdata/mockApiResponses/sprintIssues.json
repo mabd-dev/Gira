@@ -1,0 +1,72 @@
+{
+  "issues": [
+    {
+      "id": "ISSUE-1",
+      "fields": {
+        "assignee": {
+          "accountId": "123",
+          "displayName": "John Doe"
+        },
+        "status": {
+          "name": "To Do"
+        },
+        "summary": "Implement login feature",
+        "description": "User should be able to log in with email and password",
+        "sprint": {
+          "id": 1,
+          "name": "Sprint 1",
+          "startDate": "2024-01-01T00:00:00.000Z",
+          "endDate": "2024-01-14T00:00:00.000Z",
+          "goal": "Complete user authentication"
+        },
+        "customfield_10024": 5.0,
+        "components": [
+          {
+            "id": "1",
+            "name": "Backend"
+          },
+          {
+            "id": "2",
+            "name": "Frontend"
+          }
+        ],
+        "fixVersions": [
+          {
+            "id": "1",
+            "name": "v1.0.0",
+            "description": "First release"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ISSUE-2",
+      "fields": {
+        "assignee": {
+          "accountId": "456",
+          "displayName": "Jane Smith"
+        },
+        "status": {
+          "name": "In Progress"
+        },
+        "summary": "Setup database",
+        "description": "Configure PostgreSQL database",
+        "sprint": {
+          "id": 1,
+          "name": "Sprint 1",
+          "startDate": "2024-01-01T00:00:00.000Z",
+          "endDate": "2024-01-14T00:00:00.000Z",
+          "goal": "Complete user authentication"
+        },
+        "customfield_10024": 3.0,
+        "components": [
+          {
+            "id": "3",
+            "name": "Database"
+          }
+        ],
+        "fixVersions": []
+      }
+    }
+  ]
+}
