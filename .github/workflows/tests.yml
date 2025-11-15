@@ -23,7 +23,7 @@ jobs:
       with:
         go-version: ${{ matrix.go }}
 
-    - name: Run Tests on Windows (${{ matrix.go }})
+    - name: Run Tests (${{ matrix.go }} on ${{ matrix.os }})
       run: |
         go test -v -covermode=atomic .
 
