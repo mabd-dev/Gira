@@ -44,12 +44,32 @@ go build -o gira
 
 ## Configuration
 
-Gira uses environment variables for authentication with Jira. Create a `.env` file in the project root with the following configuration:
+Gira uses a TOML configuration file for authentication with Jira. The configuration file should be located at `~/.config/gira/credentials.toml`.
 
-```env
-email=your.email@example.com
-secret=your_jira_api_token
-domain=your_jira_domain
+1. Copy the example configuration:
+```bash
+cp credentials.toml.example ~/.config/gira/credentials.toml
+```
+
+2. Edit the configuration file:
+```bash
+nano ~/.config/gira/credentials.toml
+```
+
+3. Fill in your Jira credentials:
+```toml
+[general]
+debug = false
+
+[credentials]
+email = "your.email@example.com"
+secret = "your_jira_api_token"
+domain = "your_jira_domain"
+```
+
+4. Secure the configuration file:
+```bash
+chmod 600 ~/.config/gira/credentials.toml
 ```
 
 ### Getting Your Jira API Token
@@ -58,13 +78,14 @@ domain=your_jira_domain
 2. Go to [Atlassian Account Settings](https://id.atlassian.com/manage-profile/security/api-tokens)
 3. Click "Create API token"
 4. Give it a label and click "Create"
-5. Copy the generated token to your `.env` file as the `secret` value
+5. Copy the generated token to your `credentials.toml` file as the `secret` value
 
 ### Configuration Fields
 
-- **email**: Your Jira account email address
-- **secret**: Your Jira API token (see above)
-- **domain**: Your Jira domain (e.g., if your Jira URL is `yourcompany.atlassian.net`, use `yourcompany`)
+- **general.debug**: Enable debug mode to use mock API client (default: `false`)
+- **credentials.email**: Your Jira account email address
+- **credentials.secret**: Your Jira API token (see above)
+- **credentials.domain**: Your Jira domain (e.g., if your Jira URL is `yourcompany.atlassian.net`, use `yourcompany`)
 
 ## Usage
 
@@ -125,7 +146,7 @@ gira/
 - **[Bubble Tea](https://github.com/charmbracelet/bubbletea)**: TUI framework
 - **[Bubbles](https://github.com/charmbracelet/bubbles)**: TUI components
 - **[Lipgloss](https://github.com/charmbracelet/lipgloss)**: Terminal styling
-- **[godotenv](https://github.com/joho/godotenv)**: Environment variable management
+- **[go-toml/v2](https://github.com/pelletier/go-toml)**: TOML configuration management
 - **Jira REST API**: Data source
 
 ## Development
