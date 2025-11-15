@@ -324,6 +324,27 @@ domain = "   "
 	}
 }
 
+func TestLoad_InvalidDomain(t *testing.T) {
+	content := `[general]
+debug = true
+
+[credentials]
+email = "test@example.com"
+secret = "test-secret"
+domain = " https://something.come  "
+`
+	tmpDir, cleanup := setupTestConfig(t, content)
+	defer cleanup()
+
+	_, err := Load(tmpDir)
+	if err == nil {
+		t.Error("Expected error for empty domain, got nil")
+	}
+	if err != nil && err.Error() != "domain should not include http:// or https:// prefix" {
+		t.Errorf("Expected domain validation error, got: %v", err)
+	}
+}
+
 func TestGetConfigPath(t *testing.T) {
 	// Set a temporary HOME
 	tmpDir, err := os.MkdirTemp("", "gira-config-test-*")
