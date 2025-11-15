@@ -112,5 +112,10 @@ func validateConfig(config *Config) error {
 		return errors.New("domain is not set or empty in credentials.toml")
 	}
 
+	domain := strings.TrimSpace(config.Credentials.Domain)
+	if strings.HasPrefix(domain, "http://") || strings.HasPrefix(domain, "https://") {
+		return errors.New("domain should not include http:// or https:// prefix")
+	}
+
 	return nil
 }
