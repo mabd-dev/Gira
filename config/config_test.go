@@ -3,6 +3,7 @@ package config
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -59,9 +60,6 @@ domain = "test.atlassian.net"
 	}
 
 	// Check general settings
-	if !config.Debug {
-		t.Error("Expected debug to be true")
-	}
 	if !config.General.Debug {
 		t.Error("Expected General.Debug to be true")
 	}
@@ -95,9 +93,6 @@ domain = "test.atlassian.net"
 		t.Fatalf("Expected no error, got: %v", err)
 	}
 
-	if config.Debug {
-		t.Error("Expected debug to be false")
-	}
 	if config.General.Debug {
 		t.Error("Expected General.Debug to be false")
 	}
@@ -162,16 +157,7 @@ func TestLoad_AutoCreateConfigFile(t *testing.T) {
 // Helper function to check if string contains substring
 
 func containsString(s, substr string) bool {
-	return len(s) >= len(substr) && (s == substr || len(s) > len(substr) && stringContains(s, substr))
-}
-
-func stringContains(s, substr string) bool {
-	for i := 0; i <= len(s)-len(substr); i++ {
-		if s[i:i+len(substr)] == substr {
-			return true
-		}
-	}
-	return false
+	return len(s) >= len(substr) && (s == substr || len(s) > len(substr) && strings.Contains(s, substr))
 }
 
 func TestLoad_InvalidTOML(t *testing.T) {
@@ -353,10 +339,7 @@ func TestGetConfigPath(t *testing.T) {
 	}
 	defer os.RemoveAll(tmpDir)
 
-	path, err := getConfigPath(tmpDir)
-	if err != nil {
-		t.Fatalf("Expected no error, got: %v", err)
-	}
+	path := getConfigPath(tmpDir)
 
 	expectedPath := filepath.Join(tmpDir, ".config", "gira", "credentials.toml")
 	if path != expectedPath {

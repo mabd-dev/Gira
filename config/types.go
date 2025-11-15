@@ -4,7 +4,6 @@ import "fmt"
 
 // Config represents the application configuration
 type Config struct {
-	Debug       bool              `toml:"-"` // Populated from General.Debug for backward compatibility
 	General     GeneralConfig     `toml:"general"`
 	Credentials CredentialsConfig `toml:"credentials"`
 }
@@ -26,5 +25,5 @@ type FirstTimeError struct {
 }
 
 func (e *FirstTimeError) Error() string {
-	return fmt.Sprintln(e.Message)
+	return fmt.Sprint(e.Message)
 }

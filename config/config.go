@@ -14,10 +14,7 @@ import (
 // Load reads and parses the configuration file from ~/.config/gira/credentials.toml
 // If the file doesn't exist, it creates it with example values
 func Load(basePath string) (Config, error) {
-	configPath, err := getConfigPath(basePath)
-	if err != nil {
-		return Config{}, fmt.Errorf("Failed to get config path: %w", err)
-	}
+	configPath := getConfigPath(basePath)
 
 	// Check if config file exists, if not create it with example values
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
@@ -44,9 +41,6 @@ func Load(basePath string) (Config, error) {
 	if err := validateConfig(&config); err != nil {
 		return Config{}, err
 	}
-
-	// Populate Debug field for backward compatibility
-	config.Debug = config.General.Debug
 
 	return config, nil
 }
@@ -91,9 +85,8 @@ domain = "your-domain"
 	return nil
 }
 
-// GetConfigPath returns the path to the credentials file
-func getConfigPath(basePath string) (string, error) {
-	return filepath.Join(basePath, ".config", "gira", "credentials.toml"), nil
+func getConfigPath(basePath string) string {
+	return filepath.Join(basePath, ".config", "gira", "credentials.toml")
 }
 
 // validateConfig checks that all required fields are set

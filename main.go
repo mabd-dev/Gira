@@ -25,7 +25,7 @@ func main() {
 		panic(err)
 	}
 
-	if configData.Debug {
+	if configData.General.Debug {
 		if err := createMockAPIClient(); err != nil {
 			panic(err)
 		}
