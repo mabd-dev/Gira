@@ -1,6 +1,8 @@
 package api
 
 import (
+	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -21,7 +23,7 @@ func TestNewClient(t *testing.T) {
 }
 
 func TestNewMockClient(t *testing.T) {
-	client, err := NewMockClient("../")
+	client, err := NewMockClient(getTestBasePath())
 	require.NoError(t, err)
 	require.NotNil(t, client)
 
@@ -33,7 +35,7 @@ func TestNewMockClient(t *testing.T) {
 }
 
 func TestMockClient_GetProjects(t *testing.T) {
-	mockClient := MockClient{BasePath: "../"}
+	mockClient := MockClient{BasePath: getTestBasePath()}
 
 	projects, err := mockClient.GetProjects()
 	require.NoError(t, err)
@@ -45,7 +47,7 @@ func TestMockClient_GetProjects(t *testing.T) {
 }
 
 func TestMockClient_GetBoards(t *testing.T) {
-	mockClient := MockClient{BasePath: "../"}
+	mockClient := MockClient{BasePath: getTestBasePath()}
 
 	boards, err := mockClient.GetBoards("10001")
 	require.NoError(t, err)
@@ -60,7 +62,7 @@ func TestMockClient_GetBoards(t *testing.T) {
 }
 
 func TestMockClient_GetSprints(t *testing.T) {
-	mockClient := MockClient{BasePath: "../"}
+	mockClient := MockClient{BasePath: getTestBasePath()}
 
 	sprints, err := mockClient.GetSprints("1")
 	require.NoError(t, err)
@@ -73,7 +75,7 @@ func TestMockClient_GetSprints(t *testing.T) {
 
 func TestMockClient_GetActiveSprint(t *testing.T) {
 	t.Run("Returns first sprint as active", func(t *testing.T) {
-		mockClient := MockClient{BasePath: "../"}
+		mockClient := MockClient{BasePath: getTestBasePath()}
 
 		sprint, err := mockClient.GetActiveSprint("1")
 		require.NoError(t, err)
@@ -84,7 +86,7 @@ func TestMockClient_GetActiveSprint(t *testing.T) {
 }
 
 func TestMockClient_GetSprintIssues(t *testing.T) {
-	mockClient := MockClient{BasePath: "../"}
+	mockClient := MockClient{BasePath: getTestBasePath()}
 
 	issues, err := mockClient.GetSprintIssues(1)
 	require.NoError(t, err)
@@ -111,10 +113,16 @@ func TestMockClient_GetSprintIssues(t *testing.T) {
 
 func TestGetClient(t *testing.T) {
 	// Set up a mock client
-	_, err := NewMockClient("../")
+	_, err := NewMockClient(getTestBasePath())
 	require.NoError(t, err)
 
 	// Test GetClient returns the set client
 	client := GetClient()
 	assert.NotNil(t, client)
+}
+
+func getTestBasePath() string {
+	basePath, _ := os.Getwd()
+	basePath = filepath.Join(basePath, "..")
+	return basePath
 }
