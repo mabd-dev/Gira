@@ -54,7 +54,6 @@ func FormatSprint(
 	firstIssue := sprintIssuesResponse.Issues[0]
 
 	sprint := Sprint{
-		ID:         firstIssue.ID,
 		Name:       firstIssue.Fields.Sprint.Name,
 		StartDate:  firstIssue.Fields.Sprint.StartDate,
 		EndDate:    firstIssue.Fields.Sprint.EndDate,

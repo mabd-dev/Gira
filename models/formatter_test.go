@@ -165,7 +165,6 @@ func TestFormatSprint(t *testing.T) {
 
 		result, err := FormatSprint(apiResponse)
 		require.NoError(t, err)
-		assert.Equal(t, "ISSUE-1", result.ID)
 		assert.Equal(t, "Sprint 1", result.Name)
 		assert.Equal(t, "2024-01-01", result.StartDate)
 		assert.Equal(t, "2024-01-14", result.EndDate)
