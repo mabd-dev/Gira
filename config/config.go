@@ -45,7 +45,7 @@ func Load() (Config, error) {
 	}
 
 	domain := os.Getenv("domain")
-	if len(strings.TrimSpace(secret)) == 0 {
+	if len(strings.TrimSpace(domain)) == 0 {
 		return Config{}, errors.New("domain is not set or empty. Set it in .env")
 	}
 

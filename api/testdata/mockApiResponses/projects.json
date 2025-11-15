@@ -1,0 +1,15 @@
+{
+  "isLast": true,
+  "values": [
+    {
+      "id": "10001",
+      "name": "Test Project",
+      "projectTypeKey": "software"
+    },
+    {
+      "id": "10002",
+      "name": "Another Project",
+      "projectTypeKey": "business"
+    }
+  ]
+}
