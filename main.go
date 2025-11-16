@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/mabd-dev/gira/api"
 	"github.com/mabd-dev/gira/config"
@@ -9,19 +10,38 @@ import (
 	"github.com/mabd-dev/gira/internal/ui"
 )
 
-func main() {
+const version = "0.1.0"
 
-	config, err := config.Load()
+func main() {
+	// Check for version command
+	if len(os.Args) > 1 {
+		arg := os.Args[1]
+		if arg == "version" || arg == "-v" || arg == "--version" {
+			fmt.Printf("gira version %s\n", version)
+			os.Exit(0)
+		}
+	}
+
+	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		panic(err)
 	}
 
-	if config.Debug {
+	configData, err := config.Load(homeDir)
+	if err != nil {
+		if myError, ok := err.(*config.FirstTimeError); ok {
+			fmt.Println(myError.Message)
+			os.Exit(0)
+		}
+		panic(err)
+	}
+
+	if configData.General.Debug {
 		if err := createMockAPIClient(); err != nil {
 			panic(err)
 		}
 	} else {
-		if err := createRealApiClient(config.Credentials); err != nil {
+		if err := createRealApiClient(configData.Credentials); err != nil {
 			panic(err)
 		}
 	}
@@ -35,14 +55,14 @@ func main() {
 }
 
 func createMockAPIClient() error {
-	_, err := api.NewMockClient()
+	_, err := api.NewMockClient("")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 	return err
 }
 
-func createRealApiClient(cred config.Credentials) error {
+func createRealApiClient(cred config.CredentialsConfig) error {
 	_, err := api.NewClient(
 		cred.Email,
 		cred.Secret,

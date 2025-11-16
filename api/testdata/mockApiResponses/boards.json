@@ -1,0 +1,15 @@
+{
+  "isLast": true,
+  "values": [
+    {
+      "id": 1,
+      "name": "Test Board",
+      "isPrivate": false
+    },
+    {
+      "id": 2,
+      "name": "Private Board",
+      "isPrivate": true
+    }
+  ]
+}

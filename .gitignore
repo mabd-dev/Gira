@@ -1,2 +1,9 @@
+# Environment files (legacy)
 .env
+
+# Credentials (do not commit!)
+credentials.toml
+
+# Sample data
 samples/
+gira
