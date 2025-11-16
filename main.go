@@ -10,7 +10,18 @@ import (
 	"github.com/mabd-dev/gira/internal/ui"
 )
 
+const version = "0.1.0"
+
 func main() {
+	// Check for version command
+	if len(os.Args) > 1 {
+		arg := os.Args[1]
+		if arg == "version" || arg == "-v" || arg == "--version" {
+			fmt.Printf("gira version %s\n", version)
+			os.Exit(0)
+		}
+	}
+
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		panic(err)
@@ -20,7 +31,7 @@ func main() {
 	if err != nil {
 		if myError, ok := err.(*config.FirstTimeError); ok {
 			fmt.Println(myError.Message)
-			return
+			os.Exit(0)
 		}
 		panic(err)
 	}
