@@ -13,7 +13,6 @@ type Board struct {
 }
 
 type Sprint struct {
-	ID         string
 	Name       string
 	StartDate  string
 	EndDate    string
