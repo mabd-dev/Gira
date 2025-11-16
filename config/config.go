@@ -63,7 +63,7 @@ func initializeConfig(configPath string) error {
 
 [general]
 # Enable debug mode (uses mock API client instead of real Jira API)
-debug = true
+debug = false # Set to true only for development/testing
 
 [credentials]
 # Your Jira account email
