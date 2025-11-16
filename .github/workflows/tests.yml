@@ -25,5 +25,5 @@ jobs:
 
     - name: Run Tests (${{ matrix.go }} on ${{ matrix.os }})
       run: |
-        go test -v -covermode=atomic .
+        go test -v -covermode=atomic ./...
 
