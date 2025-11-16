@@ -3,6 +3,7 @@ package config
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 )
@@ -124,23 +125,27 @@ func TestLoad_AutoCreateConfigFile(t *testing.T) {
 		t.Error("Expected config file to be created, but it doesn't exist")
 	}
 
-	// Verify directory permissions (0700)
-	configDir := filepath.Join(tmpDir, ".config", "gira")
-	dirInfo, err := os.Stat(configDir)
-	if err != nil {
-		t.Fatalf("Failed to stat config directory: %v", err)
-	}
-	if dirInfo.Mode().Perm() != 0700 {
-		t.Errorf("Expected directory permissions 0700, got %o", dirInfo.Mode().Perm())
-	}
+	// Verify permissions (Unix-like systems only)
+	// On Windows, file permissions work differently and we skip this check
+	if runtime.GOOS != "windows" {
+		// Verify directory permissions (0700)
+		configDir := filepath.Join(tmpDir, ".config", "gira")
+		dirInfo, err := os.Stat(configDir)
+		if err != nil {
+			t.Fatalf("Failed to stat config directory: %v", err)
+		}
+		if dirInfo.Mode().Perm() != 0700 {
+			t.Errorf("Expected directory permissions 0700, got %o", dirInfo.Mode().Perm())
+		}
 
-	// Verify file permissions (0600)
-	fileInfo, err := os.Stat(configPath)
-	if err != nil {
-		t.Fatalf("Failed to stat config file: %v", err)
-	}
-	if fileInfo.Mode().Perm() != 0600 {
-		t.Errorf("Expected file permissions 0600, got %o", fileInfo.Mode().Perm())
+		// Verify file permissions (0600)
+		fileInfo, err := os.Stat(configPath)
+		if err != nil {
+			t.Fatalf("Failed to stat config file: %v", err)
+		}
+		if fileInfo.Mode().Perm() != 0600 {
+			t.Errorf("Expected file permissions 0600, got %o", fileInfo.Mode().Perm())
+		}
 	}
 
 	// Verify file contains example data
