@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/mabd-dev/gira/api"
 	"github.com/mabd-dev/gira/config"
@@ -9,7 +10,17 @@ import (
 	"github.com/mabd-dev/gira/internal/ui"
 )
 
+const version = "0.1.0"
+
 func main() {
+	// Check for version command
+	if len(os.Args) > 1 {
+		arg := os.Args[1]
+		if arg == "version" || arg == "-v" || arg == "--version" {
+			fmt.Printf("gira version %s\n", version)
+			os.Exit(0)
+		}
+	}
 
 	config, err := config.Load()
 	if err != nil {
