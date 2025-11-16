@@ -31,7 +31,7 @@ func main() {
 	if err != nil {
 		if myError, ok := err.(*config.FirstTimeError); ok {
 			fmt.Println(myError.Message)
-			os.Exit(1)
+			os.Exit(0)
 		}
 		panic(err)
 	}
