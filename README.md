@@ -26,43 +26,38 @@ https://github.com/user-attachments/assets/343b4fde-4831-43e9-b9f4-c47021dfba8f
 
 ## Installation
 
-1. Clone the repository:
-```bash
+### Go install (latest)
+```sh
+go install github.com/mabd-dev/gira@latest
+```
+
+### From source
+
+```sh
 git clone https://github.com/mabd-dev/gira.git
 cd gira
-```
-
-2. Install dependencies:
-```bash
-go mod download
-```
-
-3. Build the application:
-```bash
 go build -o gira
 ```
+
 
 ## Configuration
 
 Gira uses a TOML configuration file for authentication with Jira. On first run, the configuration file is automatically created at `~/.config/gira/credentials.toml` with secure permissions.
 
 1. Run the application for the first time to create the config file:
-```bash
+```sh
 ./gira
 ```
 
 The application will create `~/.config/gira/credentials.toml` and prompt you to edit it.
 
 2. Edit the configuration file with your Jira credentials:
-```bash
+```sh
 nano ~/.config/gira/credentials.toml
 ```
 
 3. Update the following fields:
 ```toml
-[general]
-debug = false
-
 [credentials]
 email = "your.email@example.com"
 secret = "your_jira_api_token"
@@ -88,13 +83,13 @@ domain = "your_jira_domain"
 
 Run the application:
 
-```bash
+```sh
 ./gira
 ```
 
 Or run directly with Go:
 
-```bash
+```sh
 go run main.go
 ```
 
