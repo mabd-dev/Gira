@@ -1,7 +1,5 @@
 package config
 
-import "fmt"
-
 // Config represents the application configuration
 type Config struct {
 	General     GeneralConfig     `toml:"general"`
@@ -25,5 +23,5 @@ type FirstTimeError struct {
 }
 
 func (e *FirstTimeError) Error() string {
-	return fmt.Sprint(e.Message)
+	return e.Message
 }
