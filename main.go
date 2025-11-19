@@ -55,7 +55,12 @@ func main() {
 }
 
 func createMockAPIClient() error {
-	_, err := api.NewMockClient("")
+	wd, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+
+	_, err = api.NewMockClient(wd)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
