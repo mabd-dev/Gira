@@ -16,14 +16,14 @@ var (
 
 func Init(
 	isEnabled bool,
-	logFilePath string,
+	logDir string,
 ) {
 	enabled = isEnabled
 	if !enabled {
 		return
 	}
 
-	file, err := createLogFile(logFilePath)
+	file, err := createLogFile(logDir)
 	if err != nil {
 		panic(err)
 	}
@@ -35,13 +35,7 @@ func Init(
 	logger.Info("Logger initialized")
 }
 
-func createLogFile(logFilePath string) (*os.File, error) {
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		panic(fmt.Errorf("failed to get user home dir: %w", err))
-	}
-	logDir := filepath.Join(homeDir, logFilePath)
-
+func createLogFile(logDir string) (*os.File, error) {
 	// Ensure directory exists
 	if err := os.MkdirAll(logDir, 0o755); err != nil {
 		panic(fmt.Errorf("failed to create log dir: %w", err))
