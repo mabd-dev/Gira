@@ -86,7 +86,7 @@ domain = "your-domain"
 }
 
 func getConfigPath(basePath string) string {
-	return filepath.Join(basePath, PathCredentials)
+	return filepath.Join(basePath, PathCredentialsFile)
 }
 
 // validateConfig checks that all required fields are set
