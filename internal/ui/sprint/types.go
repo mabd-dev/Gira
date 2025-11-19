@@ -8,11 +8,12 @@ import (
 )
 
 type Model struct {
-	loading bool
-	width   int
-	height  int
-	theme   theme.Theme
-	boardID string
+	loading        bool
+	width          int
+	height         int
+	theme          theme.Theme
+	boardID        string
+	activeSprintID int
 
 	sprint models.Sprint
 	err    error

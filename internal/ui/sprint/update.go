@@ -31,9 +31,11 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 		if msg.err != nil {
 			m.loading = false
 			m.err = msg.err
+			m.activeSprintID = -1
 			return m, nil
 		}
-		return m, fetchActiveSprintIssues(msg.sprintID)
+		m.activeSprintID = msg.sprintID
+		return m, fetchActiveSprintIssues(m.activeSprintID)
 	case fetchActiveSprintIssuesResponse:
 		if msg.err != nil {
 			m.loading = false
@@ -46,7 +48,7 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 		var tasksByStatus map[models.TaskStatus][]models.DeveloperTask
 		if len(msg.sprint.Developers) > 0 {
 			index := 0
-			if m.SelectedDevIndex < len(msg.sprint.Developers)-1 {
+			if m.SelectedDevIndex <= len(msg.sprint.Developers)-1 {
 				index = m.SelectedDevIndex
 			}
 			tasksByStatus = msg.sprint.Developers[index].TasksByStatus
@@ -71,6 +73,12 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 
 	case tea.KeyMsg:
 		switch msg.String() {
+		case "r":
+			if m.activeSprintID > 0 {
+				m.loading = true
+				return m, fetchActiveSprintIssues(m.activeSprintID)
+			}
+			return m, nil
 		case "tab":
 			if len(m.sprint.Developers) > 0 {
 				m.SelectedDevIndex = (m.SelectedDevIndex + 1) % len(m.sprint.Developers)

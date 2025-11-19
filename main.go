@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/mabd-dev/gira/api"
 	"github.com/mabd-dev/gira/config"
@@ -46,16 +47,20 @@ func main() {
 		}
 	}
 
-	logger.Init(true, "/.config/gira/logs/")
+	logger.Init(true, filepath.Join(homeDir, config.PathLogsDir))
 
 	if err := ui.Render(); err != nil {
-		// fmt.Printf("failed to render using bubbletea, err=%s", err.Error())
 		panic(err)
 	}
 }
 
 func createMockAPIClient() error {
-	_, err := api.NewMockClient("")
+	wd, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+
+	_, err = api.NewMockClient(wd)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
