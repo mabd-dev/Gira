@@ -11,7 +11,7 @@ import (
 	"github.com/mabd-dev/gira/internal/ui"
 )
 
-const version = "0.1.1"
+const version = "0.1.2"
 
 func main() {
 	// Check for version command
