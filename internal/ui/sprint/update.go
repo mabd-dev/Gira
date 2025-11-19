@@ -74,8 +74,11 @@ func (m Model) Update(msg tea.Msg) (Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch msg.String() {
 		case "r":
-			m.loading = true
-			return m, fetchActiveSprintIssues(m.activeSprintID)
+			if m.activeSprintID > 0 {
+				m.loading = true
+				return m, fetchActiveSprintIssues(m.activeSprintID)
+			}
+			return m, nil
 		case "tab":
 			if len(m.sprint.Developers) > 0 {
 				m.SelectedDevIndex = (m.SelectedDevIndex + 1) % len(m.sprint.Developers)
