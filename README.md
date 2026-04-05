@@ -2,6 +2,8 @@
 
 > A fast, keyboard-first Jira client for developers who hate using the mouse.
 
+![Gira Screenshot](./assets/screenshot.png)
+
 [![Download](https://img.shields.io/badge/download-latest%20release-blue)](../../releases/latest)
 [![Changelog](https://img.shields.io/badge/changelog-available-green)](CHANGELOG.md)
 ![Kotlin](https://img.shields.io/badge/Kotlin-Android-blue)
