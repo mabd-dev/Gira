@@ -7,9 +7,7 @@
 [![Download](https://img.shields.io/badge/download-latest%20release-blue)](../../releases/latest)
 [![Changelog](https://img.shields.io/badge/changelog-available-green)](CHANGELOG.md)
 ![Platform](https://img.shields.io/badge/platform-macOS-lightgrey)
-![Version](https://img.shields.io/badge/version-1.3.0-blue)
-
-<!-- ![Gira Screenshot](./assets/screenshot.png) -->
+![Version](https://img.shields.io/github/v/release/mabd-dev/Gira)
 
 
 https://github.com/user-attachments/assets/a53f80dc-a2b2-4b2b-95a0-61481e095309
@@ -70,9 +68,14 @@ You’ll need:
 - Email
 - API Token
 
+### 2. Sign in
+
+On first launch, Gira will prompt you to enter `baseUrl`, `email` and `api token`. Once connected these
+credentials will be encrypted and saved on your device. Next time you will be auto logged in
+
 ---
 
-## ⌨️ Keybindings Cheatsheet
+## Keybindings Cheatsheet
 
 Navigation:
 - `j`, `k` → Move between tasks  
@@ -90,11 +93,11 @@ Commands:
 - `assign @user` → Assign task  
 - `/filter @user` → Filter tasks  
 
-…and more.
+> Full keybindings reference coming soon
 
 ---
 
-## 🛣️ Roadmap
+## Roadmap
 
 ### 🐞 Known Issues
 - [ ] Task list focus inconsistencies  
