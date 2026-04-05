@@ -2,14 +2,21 @@
 
 > A fast, keyboard-first Jira client for developers who hate using the mouse.
 
-![Gira Screenshot](./assets/screenshot.png)
+
 
 [![Download](https://img.shields.io/badge/download-latest%20release-blue)](../../releases/latest)
 [![Changelog](https://img.shields.io/badge/changelog-available-green)](CHANGELOG.md)
-![Kotlin](https://img.shields.io/badge/Kotlin-Android-blue)
-![Compose](https://img.shields.io/badge/Jetpack%20Compose-UI-brightgreen)
-![Architecture](https://img.shields.io/badge/Architecture-MVI-orange)
+![Platform](https://img.shields.io/badge/platform-macOS-lightgrey)
+![Version](https://img.shields.io/badge/version-1.3.0-blue)
 
+<!-- ![Gira Screenshot](./assets/screenshot.png) -->
+
+
+https://github.com/user-attachments/assets/a53f80dc-a2b2-4b2b-95a0-61481e095309
+
+
+
+> ⚡ Navigate, update, and manage your sprint — without touching your mouse.
 ---
 
 ## ⚡ Why Gira?
