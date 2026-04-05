@@ -1,89 +1,139 @@
 # Gira
 
+> A fast, keyboard-first Jira client for developers who hate using the mouse.
 
-[![Download](https://img.shields.io/badge/download-latest%20apk-blue)](../../releases/latest)
+[![Download](https://img.shields.io/badge/download-latest%20release-blue)](../../releases/latest)
 [![Changelog](https://img.shields.io/badge/changelog-available-green)](CHANGELOG.md)
 ![Kotlin](https://img.shields.io/badge/Kotlin-Android-blue)
 ![Compose](https://img.shields.io/badge/Jetpack%20Compose-UI-brightgreen)
 ![Architecture](https://img.shields.io/badge/Architecture-MVI-orange)
 
+---
 
-***
+## ⚡ Why Gira?
 
-## The Problem -- Why JIRA is painful
+Jira is powerful… but painful.
 
-Have you ever opened JIRA to check something in the sprint to suddenly find the UI has changed, Yes it happens. Not to mention that the UI is clunky, slow and sometimes does not work. Often while in standup meeting and I try to click on a task to see more details but the popup won't show, clicking other task still nothing. The only solution is to refresh the whole page. THANK YOU JIRA
-Another big issue I see in that the the main sprint screen is packed with buttons and actions.
+- Slow and heavy UI  
+- Too many clicks for simple actions  
+- Breaks at the worst time (standups 👀)  
+- Not built for keyboard-driven workflows  
 
-This is personal but JIRA is mouse-heavy and I am a [vim](https://www.vim.org/) user :)
+**Gira fixes that.**
 
+It’s a minimal, fast, keyboard-first interface designed for developers who want to move quickly.
 
-## Key Features
+---
 
-- Vim Keybindings 
-- Bulk and repeatable edits
-- Navigate between tasks without touching your mouse
-- Simple and minimal UI
-- Configurable keybindings
+## ✨ Key Features
 
+- ⌨️ **Vim-style navigation**
+- ⚡ **Blazing fast task browsing**
+- 🔁 **Bulk & repeatable actions**
+- 🧠 **Command-driven workflow**
+- 🎯 **Minimal, distraction-free UI**
+- 🔧 **Customizable keybindings**
 
-## Download and Install
+---
 
-> Currently the app is only supported on MACOS desktop, other platforms will be supported soon
+## 📦 Download
 
-### Macos
+> Currently available on **macOS** (more platforms coming soon)
 
-Steps:
-1. Download DMG
+### macOS
 
+1. Download the latest `.dmg` from releases  
+2. Open and drag to Applications  
+3. Launch Gira  
 
-## Quick Start
+👉 [Download latest version](../../releases/latest)
 
-First thing first, authentication. You need to go to your jira account settings and generate `api token` (you need that later)
+---
 
-### Keybindings Cheatsheet
+## 🚀 Quick Start
 
-- `j`, `k`, `gg`, `G`: navigate tasks list
-- `Ctrl+h`, `Ctrl+l`: move focus between tasks list and task details panes
-- `mt`: move task to `todo`
-- `mp`: move task to `in-progress`
-- `md`: move task to `done`
-- `assign [X]`: assign task to X user
-- `/filter @username`: filter all tasks by username
+### 1. Generate Jira API Token
 
-and much more
+Go to your Atlassian account settings and create an API token.
 
-## Roadmap
+You’ll need:
+- Base URL (e.g. `https://your-domain.atlassian.net`)
+- Email
+- API Token
 
-### Known issues 
+---
 
-- [ ] Fix tasks list focus management
+## ⌨️ Keybindings Cheatsheet
 
-### Future features
+Navigation:
+- `j`, `k` → Move between tasks  
+- `gg`, `G` → Jump to top / bottom  
 
-- [ ] Parse and render task description as standard markdown
-- [ ] Ability to modify task: title, description, versions, components and custom fields
-- [ ] Filter & Command mode: suggestions & auto-complete while typing
+Focus:
+- `Ctrl + h` / `Ctrl + l` → Switch panes  
 
+Task actions:
+- `mt` → Move to **To Do**
+- `mp` → Move to **In Progress**
+- `md` → Move to **Done**
 
-### Platform supporting
+Commands:
+- `assign @user` → Assign task  
+- `/filter @user` → Filter tasks  
 
-- Windows
-- Linux
-- Android
-- iOS
+…and more.
 
-## Feedback and Community
+---
 
-If you encounter:
-- Bugs
-- UI issues
-- Feature suggestions
+## 🛣️ Roadmap
 
-Please open an issue.
+### 🐞 Known Issues
+- [ ] Task list focus inconsistencies  
 
-Feedback is welcome.
+### 🔮 Planned Features
+- [ ] Markdown rendering for descriptions  
+- [ ] Full task editing (title, description, fields)  
+- [ ] Smart command suggestions & autocomplete  
+- [ ] Advanced filtering  
 
-## About
+---
 
-After years of professionaly working as software developer, and recently being scrum-master. I have decided to build this for me and my time. 
+## 🖥️ Platform Support
+
+Planned:
+- [ ] Windows  
+- [ ] Linux  
+- [ ] Android  
+- [ ] iOS  
+
+---
+
+## 💬 Feedback
+
+Found a bug? Have an idea?
+
+Open an issue — feedback is highly appreciated.
+
+---
+
+## 🧠 Philosophy
+
+Gira was built out of frustration.
+
+After years working as a developer (and Scrum Master), I wanted a tool that:
+- respects speed  
+- prioritizes keyboard workflows  
+- removes friction from daily work  
+
+So I built it.
+
+---
+
+## ⭐ Support
+
+If you find Gira useful:
+- Star the repo ⭐  
+- Share it with your team  
+- Give feedback  
+
+It helps a lot.
