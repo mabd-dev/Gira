@@ -102,11 +102,15 @@ Commands:
 
 ## 🖥️ Platform Support
 
-Planned:
-- [ ] Windows  
-- [ ] Linux  
-- [ ] Android  
-- [ ] iOS  
+
+| Platform | Status |
+|----------|--------|
+| macOS    | ✅ Available |
+| Windows  | 🔜 Coming soon |
+| Linux    | 🔜 Planned |
+| Android  | 🔜 Planned |
+| iOS      | 🔜 Planned |
+
 
 ---
 
