@@ -90,8 +90,8 @@ Task actions:
 - `md` → Move to **Done**
 
 Commands:
-- `assign @user` → Assign task  
-- `/filter @user` → Filter tasks  
+- `assign <user>` → Assign task  
+- `/filter <user>` → Filter tasks  
 
 > Full keybindings reference coming soon
 
@@ -100,7 +100,7 @@ Commands:
 ## Roadmap
 
 ### 🐞 Known Issues
-- [ ] Task list focus inconsistencies  
+- [ ] Assign command only changes UI
 
 ### 🔮 Planned Features
 - [ ] Markdown rendering for descriptions  
