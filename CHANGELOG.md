@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 This project follows Semantic Versioning.
 
+
+## 1.5.0 - 2026-04-25
+
+### ✨ New
+
+- Render task description to markdown [#1](https://github.com/mabd-dev/Gira/issues/1). We support:
+  - Heading
+  - Text with marks like (strong, stroke, underline, code, link)
+  - Paragraph (combination of texts)
+  - Rule (line separator)
+  - Bullet List, Ordered List, TaskList, Nested Lists
+  - CodeBlock
+  - Table
+
+### 🔧 Updates
+
+- Add api call to change jira task assignee [#2](https://github.com/mabd-dev/Gira/issues/2)
+- Show `Ends Today` on sprints ending today, instead of showing `0 days remaining`
+
+
 ## 1.4.2 - 2026-04-10
 
 ### ✨ New

@@ -91,7 +91,9 @@ Task actions:
 
 Commands:
 - `assign <user>` → Assign task  
+- `assign @self` → Assign task to me (the logged in user)
 - `/filter <user>` → Filter tasks  
+- `/filter @self` → Filter tasks by me (the logged in user)
 
 > Full keybindings reference coming soon
 
@@ -100,10 +102,9 @@ Commands:
 ## Roadmap
 
 ### 🐞 Known Issues
-- [ ] Assign command only changes UI
+- [ ] Task Description Markdown does not support images
 
 ### 🔮 Planned Features
-- [ ] Markdown rendering for descriptions  
 - [ ] Full task editing (title, description, fields)  
 - [ ] Smart command suggestions & autocomplete  
 - [ ] Advanced filtering  
