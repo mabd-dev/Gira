@@ -10,7 +10,8 @@
 ![Version](https://img.shields.io/github/v/release/mabd-dev/Gira)
 
 
-https://github.com/user-attachments/assets/a53f80dc-a2b2-4b2b-95a0-61481e095309
+https://github.com/user-attachments/assets/2085e27e-000d-42fa-b9fa-a534146fb12b
+
 
 
 
@@ -94,15 +95,14 @@ Commands:
 - `assign @self` → Assign task to me (the logged in user)
 - `/filter <user>` → Filter tasks  
 - `/filter @self` → Filter tasks by me (the logged in user)
+- `progress` → See sprint progress per developer
+- `update` → update the app if new update is available
 
 > Full keybindings reference coming soon
 
 ---
 
 ## Roadmap
-
-### 🐞 Known Issues
-- [ ] Task Description Markdown does not support images
 
 ### 🔮 Planned Features
 - [ ] Full task editing (title, description, fields)  
